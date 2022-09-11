@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'dart:core';
 import 'package:flutter/scheduler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,9 +40,11 @@ class ToDoListState extends State<ToDoList> {
 
   @override
   Widget build(BuildContext context) {
-    date = DateFormat('d.M.y').format(currentDate);
+    date = "";
+    // DateFormat('d.M.y').format(currentDate);
 
-    int weekNumber = ((int.parse(DateFormat('D').format(currentDate)) + 2.5) / 7).round();
+    int weekNumber = 0;
+    // ((int.parse(DateFormat('D').format(currentDate)) + 2.5) / 7).round();
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
@@ -561,10 +562,11 @@ class ToDoListState extends State<ToDoList> {
               fillColor: MaterialStateProperty.resolveWith(getColor),
               value: isChecked,
               onChanged: (bool? value) async {
-                int weekNumber =
-                ((int.parse(DateFormat('D').format(currentDate)) + 2.5) / 7).round();
+                int weekNumber = 0;
+                // ((int.parse(DateFormat('D').format(currentDate)) + 2.5) / 7).round();
                 User? user = FirebaseAuth.instance.currentUser;
-                int year = int.parse(DateFormat('y').format(currentDate));
+                int year = 0;
+                // int.parse(DateFormat('y').format(currentDate));
                 final snapshot = await FirebaseDatabase.instance
                     .ref()
                     .child('/${user?.uid}/$year/$weekNumber/$dayKey')
@@ -589,10 +591,11 @@ class ToDoListState extends State<ToDoList> {
             trailing: IconButton(
               icon: const Icon(Icons.delete),
               onPressed: () async {
-                int weekNumber =
-                ((int.parse(DateFormat('D').format(currentDate)) + 2.5) / 7).round();
+                int weekNumber = 0;
+                // ((int.parse(DateFormat('D').format(currentDate)) + 2.5) / 7).round();
                 User? user = FirebaseAuth.instance.currentUser;
-                int year = int.parse(DateFormat('y').format(currentDate));
+                int year = 0;
+                // int.parse(DateFormat('y').format(currentDate));
                 final snapshot = await FirebaseDatabase.instance
                     .ref()
                     .child('/${user?.uid}/$year/$weekNumber/$dayKey')
@@ -650,6 +653,8 @@ class ToDoListState extends State<ToDoList> {
 DialogRoute showSigninPopup(BuildContext buildcontext, FirebaseAuth auth) {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  ///@TODO: Add anonymous signin, change popup to fullscreen!
 
   Future<bool> createUser() async {
     try {
@@ -753,21 +758,38 @@ DialogRoute showSigninPopup(BuildContext buildcontext, FirebaseAuth auth) {
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: const Text("Bitte anmelden!"),
-        content: Column(
-          children: [
-            TextField(
-              controller: emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: passwordController,
-              decoration: const InputDecoration(labelText: 'Passwort'),
-              obscureText: true,
-            ),
-          ],
-          mainAxisSize: MainAxisSize.min,
+        insetPadding: EdgeInsets.all(50),
+        backgroundColor: Colors.indigo[900],
+        title: const Text(
+            "Bitte anmelden!",
+        style: TextStyle(
+          color: Colors.white70
+        ),),
+        content: Container(
+          width: double.infinity,
+          child: Row(
+            children: [
+              Text("Test"),
+              Text("Test")
+            ],
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+          ),
         ),
+        // Column(
+        //   children: [
+        //     TextField(
+        //       controller: emailController,
+        //       decoration: const InputDecoration(labelText: 'Email'),
+        //     ),
+        //     TextField(
+        //       controller: passwordController,
+        //       decoration: const InputDecoration(labelText: 'Passwort'),
+        //       obscureText: true,
+        //     ),
+        //   ],
+        //   mainAxisSize: MainAxisSize.min,
+        // ),
         actions: <Widget>[
           TextButton(
               onPressed: () {
@@ -804,9 +826,11 @@ class ToDoList extends StatefulWidget {
 
 class ToDoDao {
   void saveEntry(DateTime date, String dayKey, String message) {
-    int weekNumber = ((int.parse(DateFormat('D').format(date)) + 2.5) / 7).round();
+    int weekNumber = 0;
+    // ((int.parse(DateFormat('D').format(date)) + 2.5) / 7).round();
     User? user = FirebaseAuth.instance.currentUser;
-    int year = int.parse(DateFormat('y').format(date));
+    int year = 0;
+    // int.parse(DateFormat('y').format(date));
     if (user != null) {
       Map<String, dynamic> json = {"message": message, "done": false};
       FirebaseDatabase.instance
@@ -818,9 +842,11 @@ class ToDoDao {
   }
 
   Query getToDoEntries(DateTime datetime, String dayKey) {
-    int weekNumber = ((int.parse(DateFormat('D').format(datetime)) + 2.5) / 7).round();
+    int weekNumber = 0;
+    // ((int.parse(DateFormat('D').format(datetime)) + 2.5) / 7).round();
     User? user = FirebaseAuth.instance.currentUser;
-    int year = int.parse(DateFormat('y').format(datetime));
+    int year = 0;
+    // int.parse(DateFormat('y').format(datetime));
     if (user != null) {
       return FirebaseDatabase.instance.ref().child('/${user.uid}/$year/$weekNumber/$dayKey');
     }

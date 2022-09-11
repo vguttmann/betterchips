@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'message_list.dart';
+import 'main_app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
