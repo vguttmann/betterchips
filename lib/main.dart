@@ -10,6 +10,12 @@ Future<void> main() async {
   runApp(
     MaterialApp(
       title: 'Named Routes Demo',
+
+      // Define a dark, indigo and green theme
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.indigo).copyWith(secondary: Colors.green),
+      ),
+
       // Start the app with the "/" named route. In this case, the app starts
       // on the FirstScreen widget.
       initialRoute: '/',
@@ -31,17 +37,12 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        /// disables the "back" button in the AppBar
-        //automaticallyImplyLeading: false,
-        title: const Text('First Screen'),
-      ),
       body: Center(
         child: ElevatedButton(
           // Within the `FirstScreen` widget
           onPressed: () {
             // Navigate to the second screen using a named route.
-            Navigator.pushReplacementNamed(context, '/');
+            Navigator.pushReplacementNamed(context, '/game');
           },
           child: const Text('Launch screen'),
         ),
@@ -62,15 +63,7 @@ class GameScreen extends StatelessWidget {
         title: const Text('Second Screen'),
       ),
       body: Center(
-        child: ElevatedButton(
-          // Within the SecondScreen widget
-          onPressed: () {
-            // Navigate back to the first screen by popping the current route
-            // off the stack.
-            Navigator.pop(context);
-          },
-          child: const Text('Go back!'),
-        ),
+        child: const Text('Game'),
       ),
     );
   }
