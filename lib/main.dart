@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'dart:math';
+import 'package:betterchips/text_scale.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +15,8 @@ Future<void> main() async {
 
       // Define a dark, indigo and green theme
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.indigo).copyWith(secondary: Colors.green),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.indigo)
+            .copyWith(secondary: Colors.green, brightness: Brightness.dark),
       ),
 
       // Start the app with the "/" named route. In this case, the app starts
@@ -31,11 +34,21 @@ Future<void> main() async {
   );
 }
 
+double desktopLoginScreenMainAreaWidth({required BuildContext context}) {
+  return min(
+    360 * reducedTextScale(context),
+    MediaQuery.of(context).size.width - 2 * _horizontalPadding,
+  );
+}
+const _horizontalPadding = 24.0;
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
+
   @override
   Widget build(BuildContext context) {
+    TextEditingController IDController = TextEditingController();
     return Scaffold(
       body: Center(
         child: ElevatedButton(
