@@ -1,0 +1,38 @@
+name: Builds
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+# Declare default permissions as read only.
+permissions: read-all
+
+jobs:
+  build:
+    name: Build ${{ matrix.target }}
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: ["apk --debug", "appbundle --debug", "ios --no-codesign", macos, web]
+    steps:
+      - name: Set up JDK 11
+        uses: actions/setup-java@d854b6da19cdadd9a010605529e522c2393ebd38
+        with:
+          java-version: 11
+          distribution: temurin
+      # Set up Flutter.
+      - name: Clone Flutter repository with master channel
+        uses: subosito/flutter-action@de3cdb9a4b2f535dc0fa0da445a46b10b1bfefc7
+        with:
+          channel: master
+      - run: flutter config --enable-macos-desktop
+      - run: flutter doctor -v
+
+      # Checkout gallery code and get packages.
+      - name: Checkout gallery code
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+      - run: flutter pub get -v
+
+      - run: flutter build ${{ matrix.target }}
