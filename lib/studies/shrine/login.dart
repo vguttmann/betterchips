@@ -156,9 +156,8 @@ class _CancelAndNextButtons extends StatelessWidget {
 
     final isDesktop = isDisplayDesktop(context);
 
-    final buttonTextPadding = isDesktop
-        ? const EdgeInsets.symmetric(horizontal: 24, vertical: 16)
-        : EdgeInsets.zero;
+    final buttonTextPadding =
+        isDesktop ? const EdgeInsets.symmetric(horizontal: 24, vertical: 16) : EdgeInsets.zero;
 
     return Padding(
       padding: isDesktop ? EdgeInsets.zero : const EdgeInsets.all(8),
@@ -201,8 +200,7 @@ class _CancelAndNextButtons extends StatelessWidget {
               padding: buttonTextPadding,
               child: Text(
                 'shrineNextButtonCaption',
-                style: TextStyle(
-                    letterSpacing: letterSpacingOrNone(largeLetterSpacing)),
+                style: TextStyle(letterSpacing: letterSpacingOrNone(largeLetterSpacing)),
               ),
             ),
           ),

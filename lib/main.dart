@@ -1,7 +1,4 @@
-import 'dart:math';
-
-import 'package:betterchips/layout/text_scale.dart';
-import 'package:betterchips/studies/shrine/app.dart';
+import 'package:betterchips/studies/shrine/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -12,39 +9,33 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MaterialApp(home: ShrineApp())
+  runApp(
 
-    // MaterialApp(
-    //   title: 'Named Routes Demo',
-    //
-    //   // Define a dark, indigo and green theme
-    //   theme: ThemeData(
-    //     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.indigo)
-    //         .copyWith(secondary: Colors.green, brightness: Brightness.dark),
-    //   ),
-    //
-    //   // Start the app with the "/" named route. In this case, the app starts
-    //   // on the FirstScreen widget.
-    //   initialRoute: '/',
-    //   routes: {
-    //     // When navigating to the "/" route, build the FirstScreen widget.
-    //     '/': (context) => const LoginScreen(),
-    //     // When navigating to the "/login" route, build the FirstScreen widget.
-    //     '/login': (context) => const LoginScreen(),
-    //     // When navigating to the "/game" route, build the SecondScreen widget.
-    //     '/game': (context) => const GameScreen(),
-    //   },
-    // ),
+    MaterialApp(
+      title: 'Named Routes Demo',
+
+      // Define a dark, indigo and green theme
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.indigo)
+            .copyWith(secondary: Colors.green, brightness: Brightness.dark),
+      ),
+
+      // Start the app with the "/" named route. In this case, the app starts
+      // on the FirstScreen widget.
+      initialRoute: '/  ',
+      routes: {
+        // When navigating to the "/" route, build the FirstScreen widget.
+        '/': (context) => const LoginPage(),
+        // When navigating to the "/login" route, build the FirstScreen widget.
+        '/login': (context) => const LoginScreen(),
+        // When navigating to the "/game" route, build the SecondScreen widget.
+        '/game': (context) => const GameScreen(),
+      },
+    ),
   );
 }
 
-double desktopLoginScreenMainAreaWidth({required BuildContext context}) {
-  return min(
-    360 * reducedTextScale(context),
-    MediaQuery.of(context).size.width - 2 * _horizontalPadding,
-  );
-}
-const _horizontalPadding = 24.0;
+
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
