@@ -4,6 +4,7 @@ project(runner LANGUAGES CXX)
 set(BINARY_NAME "betterchips")
 set(APPLICATION_ID "com.vguttmann.betterchips.betterchips")
 
+
 cmake_policy(SET CMP0063 NEW)
 
 set(CMAKE_INSTALL_RPATH "$ORIGIN/lib")

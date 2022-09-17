@@ -26,14 +26,15 @@ Future<void> format({String path = '.'}) async {
 @Task('Transform arb to xml for English')
 Future<void> l10n() async {
   final l10nPath =
-      path.join(Directory.current.path, 'tool', 'l10n_cli', 'main2.dart');
+      path.join(Directory.current.path, 'tool', 'l10n_cli', 'main.dart');
   Dart.run(l10nPath);
 }
 
 @Task('Update code segments')
 Future<void> updateCodeSegments() async {
   final codeviewerPath =
-      path.join(Directory.current.path, 'tool', 'codeviewer_cli', 'main2.dart');
+
+      path.join(Directory.current.path, 'tool', 'codeviewer_cli', 'main.dart');
   Dart.run(codeviewerPath);
 }
 
