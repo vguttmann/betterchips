@@ -4,11 +4,10 @@
 
 import 'dart:math';
 
+import 'package:betterchips/studies/shrine/category_menu_page.dart';
+import 'package:betterchips/studies/shrine/page_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/gallery_localizations.dart';
-import 'package:gallery/studies/shrine/category_menu_page.dart';
-import 'package:gallery/studies/shrine/page_status.dart';
 
 const Cubic _accelerateCurve = Cubic(0.548, 0, 0.757, 0.464);
 const Cubic _decelerateCurve = Cubic(0.23, 0.94, 0.41, 1);
@@ -98,11 +97,6 @@ class _BackdropTitle extends AnimatedWidget {
                 child: slantedMenuIcon,
               );
 
-    final menuButtonTooltip = animation.isCompleted
-        ? GalleryLocalizations.of(context)!.shrineTooltipOpenMenu
-        : animation.isDismissed
-            ? GalleryLocalizations.of(context)!.shrineTooltipCloseMenu
-            : null;
 
     return DefaultTextStyle(
       style: Theme.of(context).primaryTextTheme.titleLarge!,
@@ -117,7 +111,7 @@ class _BackdropTitle extends AnimatedWidget {
             child: IconButton(
               padding: const EdgeInsetsDirectional.only(end: 8),
               onPressed: onPress,
-              tooltip: menuButtonTooltip,
+              tooltip: 'menuButtonTooltip',
               icon: Stack(children: [
                 Opacity(
                   opacity: animation.value,
@@ -339,12 +333,12 @@ class _BackdropState extends State<Backdrop>
       actions: [
         IconButton(
           icon: const Icon(Icons.search),
-          tooltip: GalleryLocalizations.of(context)!.shrineTooltipSearch,
+          tooltip: 'shrineTooltipSearch',
           onPressed: () {},
         ),
         IconButton(
           icon: const Icon(Icons.tune),
-          tooltip: GalleryLocalizations.of(context)!.shrineTooltipSettings,
+          tooltip: 'shrineTooltipSettings',
           onPressed: () {},
         ),
       ],

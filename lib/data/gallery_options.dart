@@ -4,10 +4,10 @@
 
 import 'dart:async';
 
+import 'package:betterchips/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
-import 'package:gallery/constants.dart';
 
 enum CustomTextDirection {
   localeBased,

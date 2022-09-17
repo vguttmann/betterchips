@@ -2,9 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:betterchips/studies/shrine/colors.dart';
 import 'package:flutter/material.dart';
-
-import 'package:gallery/studies/shrine/colors.dart';
 
 const List<Offset> _vertices = [
   Offset(0, -14),

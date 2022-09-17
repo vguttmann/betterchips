@@ -2,11 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:betterchips/studies/shrine/model/product.dart';
+import 'package:betterchips/studies/shrine/supplemental/desktop_product_columns.dart';
+import 'package:betterchips/studies/shrine/supplemental/layout_cache.dart';
 import 'package:flutter/material.dart';
-
-import 'package:gallery/studies/shrine/model/product.dart';
-import 'package:gallery/studies/shrine/supplemental/desktop_product_columns.dart';
-import 'package:gallery/studies/shrine/supplemental/layout_cache.dart';
 
 /// A placeholder id for an empty element. See [_iterateUntilBalanced]
 /// for more information.

@@ -1,92 +1,86 @@
-// Copyright 2019 The Flutter team. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+import 'dart:math';
 
-import 'package:flutter/foundation.dart';
+import 'package:betterchips/layout/text_scale.dart';
+import 'package:betterchips/studies/shrine/app.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart' show timeDilation;
-import 'package:flutter_gen/gen_l10n/gallery_localizations.dart';
-import 'package:flutter_localized_locales/flutter_localized_locales.dart';
-import 'package:gallery/constants.dart';
-import 'package:gallery/data/gallery_options.dart';
-import 'package:gallery/pages/backdrop.dart';
-import 'package:gallery/pages/splash.dart';
-import 'package:gallery/routes.dart';
-import 'package:gallery/themes/gallery_theme_data.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-export 'package:gallery/data/demos.dart' show pumpDeferredLibraries;
+import 'firebase_options.dart';
 
-void main() {
-  GoogleFonts.config.allowRuntimeFetching = false;
-  runApp(const GalleryApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MaterialApp(home: ShrineApp())
+
+    // MaterialApp(
+    //   title: 'Named Routes Demo',
+    //
+    //   // Define a dark, indigo and green theme
+    //   theme: ThemeData(
+    //     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.indigo)
+    //         .copyWith(secondary: Colors.green, brightness: Brightness.dark),
+    //   ),
+    //
+    //   // Start the app with the "/" named route. In this case, the app starts
+    //   // on the FirstScreen widget.
+    //   initialRoute: '/',
+    //   routes: {
+    //     // When navigating to the "/" route, build the FirstScreen widget.
+    //     '/': (context) => const LoginScreen(),
+    //     // When navigating to the "/login" route, build the FirstScreen widget.
+    //     '/login': (context) => const LoginScreen(),
+    //     // When navigating to the "/game" route, build the SecondScreen widget.
+    //     '/game': (context) => const GameScreen(),
+    //   },
+    // ),
+  );
 }
 
-class GalleryApp extends StatelessWidget {
-  const GalleryApp({
-    super.key,
-    this.initialRoute,
-    this.isTestMode = false,
-  });
+double desktopLoginScreenMainAreaWidth({required BuildContext context}) {
+  return min(
+    360 * reducedTextScale(context),
+    MediaQuery.of(context).size.width - 2 * _horizontalPadding,
+  );
+}
+const _horizontalPadding = 24.0;
 
-  final String? initialRoute;
-  final bool isTestMode;
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {
-    return ModelBinding(
-      initialModel: GalleryOptions(
-        themeMode: ThemeMode.system,
-        textScaleFactor: systemTextScaleFactorOption,
-        customTextDirection: CustomTextDirection.localeBased,
-        locale: null,
-        timeDilation: timeDilation,
-        platform: defaultTargetPlatform,
-        isTestMode: isTestMode,
-      ),
-      child: Builder(
-        builder: (context) {
-          final options = GalleryOptions.of(context);
-          return MaterialApp(
-            restorationScopeId: 'rootGallery',
-            title: 'Flutter Gallery',
-            debugShowCheckedModeBanner: false,
-            themeMode: options.themeMode,
-            theme: GalleryThemeData.lightThemeData.copyWith(
-              platform: options.platform,
-            ),
-            darkTheme: GalleryThemeData.darkThemeData.copyWith(
-              platform: options.platform,
-            ),
-            localizationsDelegates: const [
-              ...GalleryLocalizations.localizationsDelegates,
-              LocaleNamesLocalizationsDelegate()
-            ],
-            initialRoute: initialRoute,
-            supportedLocales: GalleryLocalizations.supportedLocales,
-            locale: options.locale,
-            localeListResolutionCallback: (locales, supportedLocales) {
-              deviceLocale = locales?.first;
-              return basicLocaleListResolution(locales, supportedLocales);
-            },
-            onGenerateRoute: RouteConfiguration.onGenerateRoute,
-          );
-        },
+    // TextEditingController idController = TextEditingController();
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+          // Within the `FirstScreen` widget
+          onPressed: () {
+            // Navigate to the second screen using a named route.
+            Navigator.pushReplacementNamed(context, '/game');
+          },
+          child: const Text('Launch screen'),
+        ),
       ),
     );
   }
 }
 
-class RootPage extends StatelessWidget {
-  const RootPage({
-    super.key,
-  });
+class GameScreen extends StatelessWidget {
+  const GameScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const ApplyTextOptions(
-      child: SplashPage(
-        child: Backdrop(),
+    return Scaffold(
+      appBar: AppBar(
+        /// disables the "back" button in the AppBar
+        //automaticallyImplyLeading: false,
+        title: const Text('Second Screen'),
+      ),
+      body: const Center(
+        child: Text('Game'),
       ),
     );
   }

@@ -6,8 +6,6 @@
 
 #include "generated_plugin_registrant.h"
 
-
-void fl_register_plugins(FlPluginRegistry* registry) {
 #include <url_launcher_linux/url_launcher_plugin.h>
 
 void fl_register_plugins(FlPluginRegistry* registry) {

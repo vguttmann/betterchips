@@ -2,15 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:betterchips/layout/letter_spacing.dart';
+import 'package:betterchips/studies/shrine/colors.dart';
+import 'package:betterchips/studies/shrine/expanding_bottom_sheet.dart';
+import 'package:betterchips/studies/shrine/model/app_state_model.dart';
+import 'package:betterchips/studies/shrine/model/product.dart';
+import 'package:betterchips/studies/shrine/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_gen/gen_l10n/gallery_localizations.dart';
-import 'package:gallery/layout/letter_spacing.dart';
-import 'package:gallery/studies/shrine/colors.dart';
-import 'package:gallery/studies/shrine/expanding_bottom_sheet.dart';
-import 'package:gallery/studies/shrine/model/app_state_model.dart';
-import 'package:gallery/studies/shrine/model/product.dart';
-import 'package:gallery/studies/shrine/theme.dart';
 import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -47,7 +46,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
       body: SafeArea(
         child: ScopedModelDescendant<AppStateModel>(
           builder: (context, child, model) {
-            final localizations = GalleryLocalizations.of(context)!;
             final expandingBottomSheet = ExpandingBottomSheet.of(context);
             return Stack(
               children: [
@@ -63,19 +61,18 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                             child: IconButton(
                               icon: const Icon(Icons.keyboard_arrow_down),
                               onPressed: () => expandingBottomSheet!.close(),
-                              tooltip: localizations.shrineTooltipCloseCart,
+                              tooltip: 'shrineTooltipCloseCart',
                             ),
                           ),
                           Text(
-                            localizations.shrineCartPageCaption,
+                            'shrineCartPageCaption',
                             style: localTheme.textTheme.titleMedium!
                                 .copyWith(fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(width: 16),
-                          Text(
-                            localizations.shrineCartItemCount(
-                              model.totalCartQuantity,
-                            ),
+                          const Text(
+                            'totalCartQuantity',
+
                           ),
                         ],
                       ),
@@ -116,7 +113,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         child: Text(
-                          localizations.shrineCartClearButtonCaption,
+                          'shrineCartClearButtonCaption',
                           style: TextStyle(
                               letterSpacing:
                                   letterSpacingOrNone(largeLetterSpacing)),
@@ -154,7 +151,6 @@ class ShoppingCartSummary extends StatelessWidget {
       decimalDigits: 2,
       locale: Localizations.localeOf(context).toString(),
     );
-    final localizations = GalleryLocalizations.of(context)!;
 
     return Row(
       children: [
@@ -168,8 +164,8 @@ class ShoppingCartSummary extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SelectableText(
-                        localizations.shrineCartTotalCaption,
+                      const SelectableText(
+                        'shrineCartTotalCaption',
                       ),
                       Expanded(
                         child: SelectableText(
@@ -185,8 +181,8 @@ class ShoppingCartSummary extends StatelessWidget {
                 MergeSemantics(
                   child: Row(
                     children: [
-                      SelectableText(
-                        localizations.shrineCartSubtotalCaption,
+                      const SelectableText(
+                        'shrineCartSubtotalCaption',
                       ),
                       Expanded(
                         child: SelectableText(
@@ -202,8 +198,8 @@ class ShoppingCartSummary extends StatelessWidget {
                 MergeSemantics(
                   child: Row(
                     children: [
-                      SelectableText(
-                        localizations.shrineCartShippingCaption,
+                      const SelectableText(
+                        'shrineCartShippingCaption',
                       ),
                       Expanded(
                         child: SelectableText(
@@ -219,8 +215,8 @@ class ShoppingCartSummary extends StatelessWidget {
                 MergeSemantics(
                   child: Row(
                     children: [
-                      SelectableText(
-                        localizations.shrineCartTaxCaption,
+                      const SelectableText(
+                        'shrineCartTaxCaption',
                       ),
                       Expanded(
                         child: SelectableText(
@@ -255,13 +251,8 @@ class ShoppingCartRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formatter = NumberFormat.simpleCurrency(
-      decimalDigits: 0,
-      locale: Localizations.localeOf(context).toString(),
-    );
     final localTheme = Theme.of(context);
 
-    final localizations = GalleryLocalizations.of(context)!;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
@@ -271,8 +262,8 @@ class ShoppingCartRow extends StatelessWidget {
         children: [
           Semantics(
             container: true,
-            label: localizations
-                .shrineScreenReaderRemoveProductButton(product.name(context)),
+            label: '''localizations
+                .shrineScreenReaderRemoveProductButton(product.name(context))''',
             button: true,
             enabled: true,
             child: ExcludeSemantics(
@@ -281,7 +272,7 @@ class ShoppingCartRow extends StatelessWidget {
                 child: IconButton(
                   icon: const Icon(Icons.remove_circle_outline),
                   onPressed: onPressed,
-                  tooltip: localizations.shrineTooltipRemoveItem,
+                  tooltip: 'shrineTooltipRemoveItem',
                 ),
               ),
             ),
@@ -310,17 +301,17 @@ class ShoppingCartRow extends StatelessWidget {
                             children: [
                               MergeSemantics(
                                 child: Row(
-                                  children: [
+                                  children: const [
                                     Expanded(
                                       child: SelectableText(
-                                        localizations
-                                            .shrineProductQuantity(quantity!),
+                                        '''localizations
+                                            .shrineProductQuantity(quantity!),'''
                                       ),
                                     ),
                                     SelectableText(
-                                      localizations.shrineProductPrice(
+                                      '''localizations.shrineProductPrice(
                                         formatter.format(product.price),
-                                      ),
+                                      ),'''
                                     ),
                                   ],
                                 ),

@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:betterchips/layout/letter_spacing.dart';
+import 'package:betterchips/studies/shrine/colors.dart';
+import 'package:betterchips/studies/shrine/supplemental/cut_corners_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gallery/layout/letter_spacing.dart';
-import 'package:gallery/studies/shrine/colors.dart';
-import 'package:gallery/studies/shrine/supplemental/cut_corners_border.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const defaultLetterSpacing = 0.03;

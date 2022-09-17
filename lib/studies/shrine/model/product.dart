@@ -4,7 +4,6 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:flutter_gen/gen_l10n/gallery_localizations.dart';
 
 class Category {
   const Category({
@@ -17,21 +16,21 @@ class Category {
 }
 
 Category categoryAll = Category(
-  name: (context) => GalleryLocalizations.of(context)!.shrineCategoryNameAll,
+  name: (context) => 'shrineCategoryNameAll',
 );
 
 Category categoryAccessories = Category(
   name: (context) =>
-      GalleryLocalizations.of(context)!.shrineCategoryNameAccessories,
+      'shrineCategoryNameAccessories',
 );
 
 Category categoryClothing = Category(
   name: (context) =>
-      GalleryLocalizations.of(context)!.shrineCategoryNameClothing,
+      'shrineCategoryNameClothing',
 );
 
 Category categoryHome = Category(
-  name: (context) => GalleryLocalizations.of(context)!.shrineCategoryNameHome,
+  name: (context) => 'shrineCategoryNameHome',
 );
 
 List<Category> categories = [

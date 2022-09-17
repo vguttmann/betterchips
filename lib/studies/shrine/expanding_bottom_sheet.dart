@@ -4,15 +4,14 @@
 
 import 'dart:math';
 
+import 'package:betterchips/layout/adaptive.dart';
+import 'package:betterchips/layout/text_scale.dart';
+import 'package:betterchips/studies/shrine/colors.dart';
+import 'package:betterchips/studies/shrine/model/app_state_model.dart';
+import 'package:betterchips/studies/shrine/model/product.dart';
+import 'package:betterchips/studies/shrine/page_status.dart';
+import 'package:betterchips/studies/shrine/shopping_cart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/gallery_localizations.dart';
-import 'package:gallery/layout/adaptive.dart';
-import 'package:gallery/layout/text_scale.dart';
-import 'package:gallery/studies/shrine/colors.dart';
-import 'package:gallery/studies/shrine/model/app_state_model.dart';
-import 'package:gallery/studies/shrine/model/product.dart';
-import 'package:gallery/studies/shrine/page_status.dart';
-import 'package:gallery/studies/shrine/shopping_cart.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 // These curves define the emphasized easing curve.
@@ -453,7 +452,6 @@ class ExpandingBottomSheetState extends State<ExpandingBottomSheet> {
 
     final model = ScopedModel.of<AppStateModel>(context);
     final numProducts = model.productsInCart.keys.length;
-    final totalCartQuantity = model.totalCartQuantity;
     final screenSize = MediaQuery.of(context).size;
     final screenWidth = screenSize.width;
     final screenHeight = screenSize.height;
@@ -501,8 +499,8 @@ class ExpandingBottomSheetState extends State<ExpandingBottomSheet> {
         ? Semantics(
             button: true,
             enabled: true,
-            label: GalleryLocalizations.of(context)!
-                .shrineScreenReaderCart(totalCartQuantity),
+            label: '''GalleryLocalizations.of(context)!
+                .shrineScreenReaderCart(totalCartQuantity)''',
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
               child: GestureDetector(

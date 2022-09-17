@@ -2,17 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:betterchips/data/gallery_options.dart';
+import 'package:betterchips/layout/adaptive.dart';
+import 'package:betterchips/layout/text_scale.dart';
+import 'package:betterchips/studies/shrine/app.dart';
+import 'package:betterchips/studies/shrine/colors.dart';
+import 'package:betterchips/studies/shrine/model/app_state_model.dart';
+import 'package:betterchips/studies/shrine/model/product.dart';
+import 'package:betterchips/studies/shrine/page_status.dart';
+import 'package:betterchips/studies/shrine/triangle_category_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/gallery_localizations.dart';
-import 'package:gallery/data/gallery_options.dart';
-import 'package:gallery/layout/adaptive.dart';
-import 'package:gallery/layout/text_scale.dart';
-import 'package:gallery/studies/shrine/app.dart';
-import 'package:gallery/studies/shrine/colors.dart';
-import 'package:gallery/studies/shrine/model/app_state_model.dart';
-import 'package:gallery/studies/shrine/model/product.dart';
-import 'package:gallery/studies/shrine/page_status.dart';
-import 'package:gallery/studies/shrine/triangle_category_indicator.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 double desktopCategoryMenuPageWidth({
@@ -143,8 +142,7 @@ class CategoryMenuPage extends StatelessWidget {
                               .restorablePushNamed(ShrineApp.loginRoute);
                         },
                         child: _buttonText(
-                          GalleryLocalizations.of(context)!
-                              .shrineLogoutButtonCaption,
+                          'shrineLogoutButtonCaption',
                           logoutTextStyle,
                         ),
                       ),
@@ -154,7 +152,7 @@ class CategoryMenuPage extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.search),
                     tooltip:
-                        GalleryLocalizations.of(context)!.shrineTooltipSearch,
+                        'shrineTooltipSearch',
                     onPressed: () {},
                   ),
                   const SizedBox(height: 72),
@@ -196,8 +194,7 @@ class CategoryMenuPage extends StatelessWidget {
                                 .restorablePushNamed(ShrineApp.loginRoute);
                           },
                           child: _buttonText(
-                            GalleryLocalizations.of(context)!
-                                .shrineLogoutButtonCaption,
+                            'shrineLogoutButtonCaption',
                             logoutTextStyle,
                           ),
                         ),

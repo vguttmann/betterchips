@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:gallery/studies/shrine/model/product.dart';
-import 'package:gallery/studies/shrine/model/products_repository.dart';
+import 'package:betterchips/studies/shrine/model/product.dart';
+import 'package:betterchips/studies/shrine/model/products_repository.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 double _salesTaxRate = 0.06;

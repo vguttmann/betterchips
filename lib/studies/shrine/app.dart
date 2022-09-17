@@ -2,22 +2,21 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:betterchips/data/gallery_options.dart';
+import 'package:betterchips/layout/adaptive.dart';
+import 'package:betterchips/studies/shrine/backdrop.dart';
+import 'package:betterchips/studies/shrine/category_menu_page.dart';
+import 'package:betterchips/studies/shrine/expanding_bottom_sheet.dart';
+import 'package:betterchips/studies/shrine/home.dart';
+import 'package:betterchips/studies/shrine/login.dart';
+import 'package:betterchips/studies/shrine/model/app_state_model.dart';
+import 'package:betterchips/studies/shrine/model/product.dart';
+import 'package:betterchips/studies/shrine/page_status.dart';
+import 'package:betterchips/studies/shrine/routes.dart' as routes;
+import 'package:betterchips/studies/shrine/scrim.dart';
+import 'package:betterchips/studies/shrine/supplemental/layout_cache.dart';
+import 'package:betterchips/studies/shrine/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/gallery_localizations.dart';
-import 'package:gallery/data/gallery_options.dart';
-import 'package:gallery/layout/adaptive.dart';
-import 'package:gallery/studies/shrine/backdrop.dart';
-import 'package:gallery/studies/shrine/category_menu_page.dart';
-import 'package:gallery/studies/shrine/expanding_bottom_sheet.dart';
-import 'package:gallery/studies/shrine/home.dart';
-import 'package:gallery/studies/shrine/login.dart';
-import 'package:gallery/studies/shrine/model/app_state_model.dart';
-import 'package:gallery/studies/shrine/model/product.dart';
-import 'package:gallery/studies/shrine/page_status.dart';
-import 'package:gallery/studies/shrine/routes.dart' as routes;
-import 'package:gallery/studies/shrine/scrim.dart';
-import 'package:gallery/studies/shrine/supplemental/layout_cache.dart';
-import 'package:gallery/studies/shrine/theme.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ShrineApp extends StatefulWidget {
@@ -103,7 +102,7 @@ class _ShrineAppState extends State<ShrineApp>
       frontLayer: const ProductPage(),
       backLayer: CategoryMenuPage(onCategoryTap: () => _controller.forward()),
       frontTitle: const Text('SHRINE'),
-      backTitle: Text(GalleryLocalizations.of(context)!.shrineMenuCaption),
+      backTitle: const Text('SHRINE'),
       controller: _controller,
     );
   }
@@ -169,9 +168,6 @@ class _ShrineAppState extends State<ShrineApp>
           theme: shrineTheme.copyWith(
             platform: GalleryOptions.of(context).platform,
           ),
-          // L10n settings.
-          localizationsDelegates: GalleryLocalizations.localizationsDelegates,
-          supportedLocales: GalleryLocalizations.supportedLocales,
           locale: GalleryOptions.of(context).locale,
         ),
       ),

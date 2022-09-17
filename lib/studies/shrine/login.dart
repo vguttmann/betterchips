@@ -4,15 +4,14 @@
 
 import 'dart:math';
 
+import 'package:betterchips/data/gallery_options.dart';
+import 'package:betterchips/layout/adaptive.dart';
+import 'package:betterchips/layout/image_placeholder.dart';
+import 'package:betterchips/layout/letter_spacing.dart';
+import 'package:betterchips/layout/text_scale.dart';
+import 'package:betterchips/studies/shrine/app.dart';
+import 'package:betterchips/studies/shrine/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/gallery_localizations.dart';
-import 'package:gallery/data/gallery_options.dart';
-import 'package:gallery/layout/adaptive.dart';
-import 'package:gallery/layout/image_placeholder.dart';
-import 'package:gallery/layout/letter_spacing.dart';
-import 'package:gallery/layout/text_scale.dart';
-import 'package:gallery/studies/shrine/app.dart';
-import 'package:gallery/studies/shrine/theme.dart';
 
 const _horizontalPadding = 24.0;
 
@@ -118,7 +117,7 @@ class _UsernameTextField extends StatelessWidget {
       restorationId: 'username_text_field',
       cursorColor: colorScheme.onSurface,
       decoration: InputDecoration(
-        labelText: GalleryLocalizations.of(context)!.shrineLoginUsernameLabel,
+        labelText: 'shrineLoginUsernameLabel',
         labelStyle: TextStyle(
           letterSpacing: letterSpacingOrNone(mediumLetterSpacing),
         ),
@@ -139,7 +138,7 @@ class _PasswordTextField extends StatelessWidget {
       cursorColor: colorScheme.onSurface,
       obscureText: true,
       decoration: InputDecoration(
-        labelText: GalleryLocalizations.of(context)!.shrineLoginPasswordLabel,
+        labelText: 'shrineLoginPasswordLabel',
         labelStyle: TextStyle(
           letterSpacing: letterSpacingOrNone(mediumLetterSpacing),
         ),
@@ -183,7 +182,7 @@ class _CancelAndNextButtons extends StatelessWidget {
             child: Padding(
               padding: buttonTextPadding,
               child: Text(
-                GalleryLocalizations.of(context)!.shrineCancelButtonCaption,
+                'shrineCancelButtonCaption',
                 style: TextStyle(color: colorScheme.onSurface),
               ),
             ),
@@ -201,7 +200,7 @@ class _CancelAndNextButtons extends StatelessWidget {
             child: Padding(
               padding: buttonTextPadding,
               child: Text(
-                GalleryLocalizations.of(context)!.shrineNextButtonCaption,
+                'shrineNextButtonCaption',
                 style: TextStyle(
                     letterSpacing: letterSpacingOrNone(largeLetterSpacing)),
               ),
