@@ -11,7 +11,11 @@ import 'package:betterchips/layout/letter_spacing.dart';
 import 'package:betterchips/layout/text_scale.dart';
 import 'package:betterchips/studies/shrine/app.dart';
 import 'package:betterchips/studies/shrine/theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+
+import '../../constants.dart';
 
 const _horizontalPadding = 24.0;
 
@@ -29,52 +33,63 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDesktop = isDisplayDesktop(context);
 
-    return ApplyTextOptions(
-      child: isDesktop
-          ? LayoutBuilder(
-              builder: (context, constraints) => Scaffold(
-                body: SafeArea(
-                  child: Center(
-                    child: SizedBox(
-                      width: desktopLoginScreenMainAreaWidth(context: context),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          _ShrineLogo(),
-                          SizedBox(height: 40),
-                          _UsernameTextField(),
-                          SizedBox(height: 16),
-                          _PasswordTextField(),
-                          SizedBox(height: 24),
-                          _CancelAndNextButtons(),
-                          SizedBox(height: 62),
-                        ],
+    return ModelBinding(
+      initialModel: GalleryOptions(
+        themeMode: ThemeMode.system,
+        textScaleFactor: systemTextScaleFactorOption,
+        customTextDirection: CustomTextDirection.localeBased,
+        locale: null,
+        timeDilation: timeDilation,
+        platform: defaultTargetPlatform,
+        isTestMode: true,
+      ),
+      child: ApplyTextOptions(
+        child: isDesktop
+            ? LayoutBuilder(
+                builder: (context, constraints) => Scaffold(
+                  body: SafeArea(
+                    child: Center(
+                      child: SizedBox(
+                        width: desktopLoginScreenMainAreaWidth(context: context),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            _ShrineLogo(),
+                            SizedBox(height: 40),
+                            _UsernameTextField(),
+                            SizedBox(height: 16),
+                            _PasswordTextField(),
+                            SizedBox(height: 24),
+                            _CancelAndNextButtons(),
+                            SizedBox(height: 62),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            )
-          : Scaffold(
-              body: SafeArea(
-                child: ListView(
-                  restorationId: 'login_list_view',
-                  physics: const ClampingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: _horizontalPadding,
+              )
+            : Scaffold(
+                body: SafeArea(
+                  child: ListView(
+                    restorationId: 'login_list_view',
+                    physics: const ClampingScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: _horizontalPadding,
+                    ),
+                    children: const [
+                      SizedBox(height: 80),
+                      _ShrineLogo(),
+                      SizedBox(height: 120),
+                      _UsernameTextField(),
+                      SizedBox(height: 12),
+                      _PasswordTextField(),
+                      _CancelAndNextButtons(),
+                    ],
                   ),
-                  children: const [
-                    SizedBox(height: 80),
-                    _ShrineLogo(),
-                    SizedBox(height: 120),
-                    _UsernameTextField(),
-                    SizedBox(height: 12),
-                    _PasswordTextField(),
-                    _CancelAndNextButtons(),
-                  ],
                 ),
               ),
-            ),
+      ),
     );
   }
 }
