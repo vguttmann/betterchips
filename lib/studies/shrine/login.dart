@@ -9,7 +9,6 @@ import 'package:betterchips/layout/adaptive.dart';
 import 'package:betterchips/layout/image_placeholder.dart';
 import 'package:betterchips/layout/letter_spacing.dart';
 import 'package:betterchips/layout/text_scale.dart';
-import 'package:betterchips/studies/shrine/app.dart';
 import 'package:betterchips/studies/shrine/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -111,8 +110,8 @@ class _ShrineLogo extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'SHRINE',
-            style: Theme.of(context).textTheme.headlineSmall,
+            'BetterChips',
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
         ],
       ),
@@ -132,7 +131,7 @@ class _UsernameTextField extends StatelessWidget {
       restorationId: 'username_text_field',
       cursorColor: colorScheme.onSurface,
       decoration: InputDecoration(
-        labelText: 'shrineLoginUsernameLabel',
+        labelText: 'Name',
         labelStyle: TextStyle(
           letterSpacing: letterSpacingOrNone(mediumLetterSpacing),
         ),
@@ -153,7 +152,7 @@ class _PasswordTextField extends StatelessWidget {
       cursorColor: colorScheme.onSurface,
       obscureText: true,
       decoration: InputDecoration(
-        labelText: 'shrineLoginPasswordLabel',
+        labelText: 'Table ID',
         labelStyle: TextStyle(
           letterSpacing: letterSpacingOrNone(mediumLetterSpacing),
         ),
@@ -172,50 +171,45 @@ class _CancelAndNextButtons extends StatelessWidget {
     final isDesktop = isDisplayDesktop(context);
 
     final buttonTextPadding =
-        isDesktop ? const EdgeInsets.symmetric(horizontal: 24, vertical: 16) : EdgeInsets.zero;
+        isDesktop ? const EdgeInsets.symmetric(horizontal: 12, vertical: 8) : EdgeInsets.zero;
 
     return Padding(
-      padding: isDesktop ? EdgeInsets.zero : const EdgeInsets.all(8),
+      padding: isDesktop ? EdgeInsets.zero : const EdgeInsets.all(4),
       child: OverflowBar(
         spacing: isDesktop ? 0 : 8,
         alignment: MainAxisAlignment.end,
         children: [
-          TextButton(
-            style: TextButton.styleFrom(
-              shape: const BeveledRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(7)),
-              ),
-            ),
-            onPressed: () {
-              // The login screen is immediately displayed on top of
-              // the Shrine home screen using onGenerateRoute and so
-              // rootNavigator must be set to true in order to get out
-              // of Shrine completely.
-              Navigator.of(context, rootNavigator: true).pop();
-            },
-            child: Padding(
-              padding: buttonTextPadding,
-              child: Text(
-                'shrineCancelButtonCaption',
-                style: TextStyle(color: colorScheme.onSurface),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: TextButton(
+              onPressed: () {
+                // The login screen is immediately displayed on top of
+                // the Shrine home screen using onGenerateRoute and so
+                // rootNavigator must be set to true in order to get out
+                // of Shrine completely.
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+              child: Padding(
+                padding: buttonTextPadding,
+                child: Text(
+                  'Create Table',
+                  style: TextStyle(color: colorScheme.onSurface),
+                ),
               ),
             ),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              elevation: 8,
-              shape: const BeveledRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(7)),
-              ),
-            ),
-            onPressed: () {
-              Navigator.of(context).restorablePushNamed(ShrineApp.homeRoute);
-            },
-            child: Padding(
-              padding: buttonTextPadding,
-              child: Text(
-                'shrineNextButtonCaption',
-                style: TextStyle(letterSpacing: letterSpacingOrNone(largeLetterSpacing)),
+
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: ElevatedButton(
+              onPressed: () {
+              },
+              child: Padding(
+                padding: buttonTextPadding,
+                child: Text(
+                  'Join Table',
+                  style: TextStyle(letterSpacing: letterSpacingOrNone(largeLetterSpacing)),
+                ),
               ),
             ),
           ),

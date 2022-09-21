@@ -4,7 +4,6 @@
 
 import 'package:betterchips/layout/letter_spacing.dart';
 import 'package:betterchips/studies/shrine/colors.dart';
-import 'package:betterchips/studies/shrine/supplemental/cut_corners_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,7 +15,7 @@ const largeLetterSpacing = 1.0;
 final ThemeData shrineTheme = _buildShrineTheme();
 
 IconThemeData _customIconTheme(IconThemeData original) {
-  return original.copyWith(color: shrineBrown900);
+  return original.copyWith(color: Colors.indigo[900]);
 }
 
 ThemeData _buildShrineTheme() {
@@ -30,9 +29,6 @@ ThemeData _buildShrineTheme() {
     cardColor: shrineBackgroundWhite,
     primaryIconTheme: _customIconTheme(base.iconTheme),
     inputDecorationTheme: const InputDecorationTheme(
-      border: CutCornersBorder(
-        borderSide: BorderSide(color: shrineBrown900, width: 0.5),
-      ),
       contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
     ),
     textTheme: _buildShrineTextTheme(base.textTheme),

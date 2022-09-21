@@ -1,7 +1,6 @@
 import 'package:betterchips/studies/shrine/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -10,7 +9,6 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-
     MaterialApp(
       title: 'Named Routes Demo',
 
@@ -22,7 +20,7 @@ Future<void> main() async {
 
       // Start the app with the "/" named route. In this case, the app starts
       // on the FirstScreen widget.
-      initialRoute: '/  ',
+      initialRoute: '/',
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
         '/': (context) => const LoginPage(),
