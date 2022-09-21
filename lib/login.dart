@@ -9,12 +9,15 @@ import 'package:betterchips/layout/adaptive.dart';
 import 'package:betterchips/layout/image_placeholder.dart';
 import 'package:betterchips/layout/letter_spacing.dart';
 import 'package:betterchips/layout/text_scale.dart';
-import 'package:betterchips/studies/shrine/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'constants.dart';
 
-import '../../constants.dart';
+const defaultLetterSpacing = 0.03;
+const mediumLetterSpacing = 0.04;
+const largeLetterSpacing = 1.0;
+
 
 const _horizontalPadding = 24.0;
 
