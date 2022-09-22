@@ -58,6 +58,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '468555489176',
     projectId: 'betterchips-b1d39',
     authDomain: 'betterchips-b1d39.firebaseapp.com',
+    databaseURL: 'https://betterchips-b1d39-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'betterchips-b1d39.appspot.com',
     measurementId: 'G-TZ4ENJSNPE',
   );
