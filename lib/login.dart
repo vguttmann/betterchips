@@ -9,14 +9,19 @@ import 'package:betterchips/layout/adaptive.dart';
 import 'package:betterchips/layout/image_placeholder.dart';
 import 'package:betterchips/layout/letter_spacing.dart';
 import 'package:betterchips/layout/text_scale.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:firebase_database/firebase_database.dart';
+
 import 'constants.dart';
 
 const defaultLetterSpacing = 0.03;
 const mediumLetterSpacing = 0.04;
 const largeLetterSpacing = 1.0;
+FirebaseAuth auth = FirebaseAuth.instanceFor(app: Firebase.app());
 
 
 const _horizontalPadding = 24.0;
@@ -185,11 +190,21 @@ class _CancelAndNextButtons extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: TextButton(
-              onPressed: () {
-                // The login screen is immediately displayed on top of
-                // the Shrine home screen using onGenerateRoute and so
-                // rootNavigator must be set to true in order to get out
-                // of Shrine completely.
+              onPressed: () async {
+                try {
+                  final userCredential =
+                      await FirebaseAuth.instance.signInAnonymously();
+                  debugPrint('Signed in with temporary account.');
+                } on FirebaseAuthException catch (e) {
+                  switch (e.code) {
+                    case 'operation-not-allowed':
+                      debugPrint("Anonymous auth hasn't been enabled for this project.");
+                      break;
+                    default:debugPrint('Unknown error.');
+                  }
+                }
+                FirebaseDatabase.instance.ref().
+
                 Navigator.of(context, rootNavigator: true).pop();
               },
               child: Padding(
@@ -205,7 +220,21 @@ class _CancelAndNextButtons extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                try {
+                  final userCredential =
+                  await auth.signInAnonymously();
+                  debugPrint('Signed in with temporary account.');
+                } on FirebaseAuthException catch (e) {
+                  switch (e.code) {
+                    case 'operation-not-allowed':
+                      debugPrint("Anonymous auth hasn't been enabled for this project.");
+                      break;
+                    default:
+                      debugPrint('Unknown error.');
+                  }
+                }
+
               },
               child: Padding(
                 padding: buttonTextPadding,
