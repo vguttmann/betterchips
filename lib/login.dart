@@ -11,10 +11,10 @@ import 'package:betterchips/layout/letter_spacing.dart';
 import 'package:betterchips/layout/text_scale.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 import 'constants.dart';
 
@@ -22,7 +22,6 @@ const defaultLetterSpacing = 0.03;
 const mediumLetterSpacing = 0.04;
 const largeLetterSpacing = 1.0;
 FirebaseAuth auth = FirebaseAuth.instanceFor(app: Firebase.app());
-
 
 const _horizontalPadding = 24.0;
 
@@ -33,13 +32,143 @@ double desktopLoginScreenMainAreaWidth({required BuildContext context}) {
   );
 }
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final isDesktop = isDisplayDesktop(context);
+  State<LoginPage> createState() {
+    return _LoginPageState();
+  }
+}
 
+class _LoginPageState extends State<LoginPage> {
+  late TextEditingController idController;
+  late TextEditingController nameController;
+
+  @override
+  void initState() {
+    super.initState();
+    idController = TextEditingController();
+    nameController = TextEditingController();
+  }
+
+  Widget actionButtons() {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+    bool isDesktop = isDisplayDesktop(context);
+    EdgeInsets buttonTextPadding =
+        isDesktop ? const EdgeInsets.symmetric(horizontal: 12, vertical: 8) : EdgeInsets.zero;
+    return Padding(
+      padding: isDesktop ? EdgeInsets.zero : const EdgeInsets.all(4),
+      child: OverflowBar(
+        spacing: isDesktop ? 0 : 8,
+        alignment: MainAxisAlignment.end,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: TextButton(
+              onPressed: () async {
+                try {
+                  final userCredential = await FirebaseAuth.instance.signInAnonymously();
+                  debugPrint('Signed in with temporary account.');
+                } on FirebaseAuthException catch (e) {
+                  switch (e.code) {
+                    case 'operation-not-allowed':
+                      debugPrint("Anonymous auth hasn't been enabled for this project.");
+                      break;
+                    default:
+                      debugPrint('Unknown error.');
+                  }
+                }
+                final snapshot =
+                    await FirebaseDatabase.instance.ref().child('/${idController.text}').get();
+                print(snapshot.value);
+                print(snapshot.exists);
+                if (true) {
+                  /// @TODO: Add an alarm about an existing table here!
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   SnackBar(
+                  //     content: SnackBar(
+                  //       content: Text(
+                  //         'Create Table',
+                  //         style: TextStyle(color: colorScheme.onSurface),
+                  //       ),
+                  //       duration: const Duration(seconds: 1),
+                  //     ),
+                  //   ),
+                  // );
+                }
+              },
+              child: Padding(
+                padding: buttonTextPadding,
+                child: Text(
+                  'Create Table',
+                  style: TextStyle(color: colorScheme.onSurface),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: ElevatedButton(
+              onPressed: () async {
+                try {
+                  final userCredential = await auth.signInAnonymously();
+                  debugPrint('Signed in with temporary account.');
+                } on FirebaseAuthException catch (e) {
+                  switch (e.code) {
+                    case 'operation-not-allowed':
+                      debugPrint("Anonymous auth hasn't been enabled for this project.");
+                      break;
+                    default:
+                      debugPrint('Unknown error.');
+                  }
+                }
+              },
+              child: Padding(
+                padding: buttonTextPadding,
+                child: Text(
+                  'Join Table',
+                  style: TextStyle(letterSpacing: letterSpacingOrNone(largeLetterSpacing)),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget nameTextField() {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+    return TextField(
+      controller: nameController,
+      textInputAction: TextInputAction.next,
+      cursorColor: colorScheme.onSurface,
+      decoration: InputDecoration(
+        labelText: 'Name',
+        labelStyle: TextStyle(
+          letterSpacing: letterSpacingOrNone(mediumLetterSpacing),
+        ),
+      ),
+    );
+  }
+
+  Widget idTextField() {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+    return TextField(
+      cursorColor: colorScheme.onSurface,
+      decoration: InputDecoration(
+        labelText: 'Table ID',
+        labelStyle: TextStyle(
+          letterSpacing: letterSpacingOrNone(mediumLetterSpacing),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    bool isDesktop = isDisplayDesktop(context);
     return ModelBinding(
       initialModel: GalleryOptions(
         themeMode: ThemeMode.system,
@@ -60,15 +189,15 @@ class LoginPage extends StatelessWidget {
                         width: desktopLoginScreenMainAreaWidth(context: context),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            _ShrineLogo(),
-                            SizedBox(height: 40),
-                            _UsernameTextField(),
-                            SizedBox(height: 16),
-                            _PasswordTextField(),
-                            SizedBox(height: 24),
-                            _CancelAndNextButtons(),
-                            SizedBox(height: 62),
+                          children: [
+                            const _ShrineLogo(),
+                            const SizedBox(height: 40),
+                            nameTextField(),
+                            const SizedBox(height: 16),
+                            idTextField(),
+                            const SizedBox(height: 24),
+                            actionButtons(),
+                            const SizedBox(height: 62),
                           ],
                         ),
                       ),
@@ -84,14 +213,14 @@ class LoginPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                       horizontal: _horizontalPadding,
                     ),
-                    children: const [
-                      SizedBox(height: 80),
-                      _ShrineLogo(),
-                      SizedBox(height: 120),
-                      _UsernameTextField(),
-                      SizedBox(height: 12),
-                      _PasswordTextField(),
-                      _CancelAndNextButtons(),
+                    children: [
+                      const SizedBox(height: 80),
+                      const _ShrineLogo(),
+                      const SizedBox(height: 120),
+                      nameTextField(),
+                      const SizedBox(height: 12),
+                      idTextField(),
+                      actionButtons(),
                     ],
                   ),
                 ),
@@ -120,130 +249,6 @@ class _ShrineLogo extends StatelessWidget {
           Text(
             'BetterChips',
             style: Theme.of(context).textTheme.headlineMedium,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _UsernameTextField extends StatelessWidget {
-  const _UsernameTextField();
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return TextField(
-      textInputAction: TextInputAction.next,
-      restorationId: 'username_text_field',
-      cursorColor: colorScheme.onSurface,
-      decoration: InputDecoration(
-        labelText: 'Name',
-        labelStyle: TextStyle(
-          letterSpacing: letterSpacingOrNone(mediumLetterSpacing),
-        ),
-      ),
-    );
-  }
-}
-
-class _PasswordTextField extends StatelessWidget {
-  const _PasswordTextField();
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return TextField(
-      restorationId: 'password_text_field',
-      cursorColor: colorScheme.onSurface,
-      obscureText: true,
-      decoration: InputDecoration(
-        labelText: 'Table ID',
-        labelStyle: TextStyle(
-          letterSpacing: letterSpacingOrNone(mediumLetterSpacing),
-        ),
-      ),
-    );
-  }
-}
-
-class _CancelAndNextButtons extends StatelessWidget {
-  const _CancelAndNextButtons();
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    final isDesktop = isDisplayDesktop(context);
-
-    final buttonTextPadding =
-        isDesktop ? const EdgeInsets.symmetric(horizontal: 12, vertical: 8) : EdgeInsets.zero;
-
-    return Padding(
-      padding: isDesktop ? EdgeInsets.zero : const EdgeInsets.all(4),
-      child: OverflowBar(
-        spacing: isDesktop ? 0 : 8,
-        alignment: MainAxisAlignment.end,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: TextButton(
-              onPressed: () async {
-                try {
-                  final userCredential =
-                      await FirebaseAuth.instance.signInAnonymously();
-                  debugPrint('Signed in with temporary account.');
-                } on FirebaseAuthException catch (e) {
-                  switch (e.code) {
-                    case 'operation-not-allowed':
-                      debugPrint("Anonymous auth hasn't been enabled for this project.");
-                      break;
-                    default:debugPrint('Unknown error.');
-                  }
-                }
-                FirebaseDatabase.instance.ref().
-
-                Navigator.of(context, rootNavigator: true).pop();
-              },
-              child: Padding(
-                padding: buttonTextPadding,
-                child: Text(
-                  'Create Table',
-                  style: TextStyle(color: colorScheme.onSurface),
-                ),
-              ),
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: ElevatedButton(
-              onPressed: () async {
-                try {
-                  final userCredential =
-                  await auth.signInAnonymously();
-                  debugPrint('Signed in with temporary account.');
-                } on FirebaseAuthException catch (e) {
-                  switch (e.code) {
-                    case 'operation-not-allowed':
-                      debugPrint("Anonymous auth hasn't been enabled for this project.");
-                      break;
-                    default:
-                      debugPrint('Unknown error.');
-                  }
-                }
-
-              },
-              child: Padding(
-                padding: buttonTextPadding,
-                child: Text(
-                  'Join Table',
-                  style: TextStyle(letterSpacing: letterSpacingOrNone(largeLetterSpacing)),
-                ),
-              ),
-            ),
           ),
         ],
       ),
