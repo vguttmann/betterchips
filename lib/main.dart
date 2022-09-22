@@ -24,37 +24,12 @@ Future<void> main() async {
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
         '/': (context) => const LoginPage(),
-        // When navigating to the "/login" route, build the FirstScreen widget.
-        '/login': (context) => const LoginScreen(),
+        // When navigating to the "/ln" route, build the FogiirstScreen widget.
         // When navigating to the "/game" route, build the SecondScreen widget.
         '/game': (context) => const GameScreen(),
       },
     ),
   );
-}
-
-
-
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
-
-
-  @override
-  Widget build(BuildContext context) {
-    // TextEditingController idController = TextEditingController();
-    return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          // Within the `FirstScreen` widget
-          onPressed: () {
-            // Navigate to the second screen using a named route.
-            Navigator.pushReplacementNamed(context, '/game');
-          },
-          child: const Text('Launch screen'),
-        ),
-      ),
-    );
-  }
 }
 
 class GameScreen extends StatelessWidget {
