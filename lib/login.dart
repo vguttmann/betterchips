@@ -99,10 +99,12 @@ class _LoginPageState extends State<LoginPage> {
                 } else {
                   Map<String, dynamic> innerInnerJson = <String, dynamic>{'chips': 0, 'gameMaster': true};
                   Map<String, dynamic> innerJson = <String, dynamic>{nameController.text: innerInnerJson};
-                  // Map<String, dynamic> json = <String, dynamic>{idController.text: innerJson};
-                  Map<String, dynamic> json = <String, dynamic>{'message': 'message', 'done': false};
+                  Map<String, dynamic> json = <String, dynamic>{idController.text: innerJson};
+                  // Map<String, dynamic> json = <String, dynamic>{'message': 'message', 'done': false};
+                  print('=============');
+                  print(idController.text + 'test');
 
-                  await FirebaseDatabase.instance.ref().child('/${idController.text}').push().set(json);
+                  await FirebaseDatabase.instance.ref().child('/${idController.text}/players').set(innerJson);
                 }
               },
               child: Padding(
@@ -152,6 +154,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget idTextField() {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return TextField(
+      controller: idController,
       cursorColor: colorScheme.onSurface,
       decoration: InputDecoration(
         labelText: 'Table ID',
