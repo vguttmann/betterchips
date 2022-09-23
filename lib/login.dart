@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                     await FirebaseDatabase.instance.ref().child('/${idController.text}').get();
                 print(snapshot.value);
                 print(snapshot.exists);
-                if (true) {
+                if (snapshot.exists) {
                   /// @TODO: Add an alarm about an existing table here!
                   // ScaffoldMessenger.of(context).showSnackBar(
                   //   SnackBar(
@@ -96,6 +96,13 @@ class _LoginPageState extends State<LoginPage> {
                   //     ),
                   //   ),
                   // );
+                } else {
+                  Map<String, dynamic> innerInnerJson = <String, dynamic>{'chips': 0, 'gameMaster': true};
+                  Map<String, dynamic> innerJson = <String, dynamic>{nameController.text: innerInnerJson};
+                  // Map<String, dynamic> json = <String, dynamic>{idController.text: innerJson};
+                  Map<String, dynamic> json = <String, dynamic>{'message': 'message', 'done': false};
+
+                  await FirebaseDatabase.instance.ref().child('/${idController.text}').push().set(json);
                 }
               },
               child: Padding(
@@ -111,18 +118,7 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.all(4.0),
             child: ElevatedButton(
               onPressed: () async {
-                try {
-                  final userCredential = await auth.signInAnonymously();
-                  debugPrint('Signed in with temporary account.');
-                } on FirebaseAuthException catch (e) {
-                  switch (e.code) {
-                    case 'operation-not-allowed':
-                      debugPrint("Anonymous auth hasn't been enabled for this project.");
-                      break;
-                    default:
-                      debugPrint('Unknown error.');
-                  }
-                }
+
               },
               child: Padding(
                 padding: buttonTextPadding,
