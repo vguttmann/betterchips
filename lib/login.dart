@@ -12,6 +12,7 @@ import 'package:betterchips/layout/text_scale.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -63,6 +64,7 @@ class _LoginPageState extends State<LoginPage> {
         spacing: isDesktop ? 0 : 8,
         alignment: MainAxisAlignment.end,
         children: [
+          // FirebaseAnimatedList(query: query, itemBuilder: itemBuilder),
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: TextButton(
@@ -100,10 +102,6 @@ class _LoginPageState extends State<LoginPage> {
                   Map<String, dynamic> innerInnerJson = <String, dynamic>{'chips': 0, 'gameMaster': true};
                   Map<String, dynamic> innerJson = <String, dynamic>{nameController.text: innerInnerJson};
                   Map<String, dynamic> json = <String, dynamic>{idController.text: innerJson};
-                  // Map<String, dynamic> json = <String, dynamic>{'message': 'message', 'done': false};
-                  print('=============');
-                  print(idController.text + 'test');
-
                   await FirebaseDatabase.instance.ref().child('/${idController.text}/players').set(innerJson);
                 }
               },
