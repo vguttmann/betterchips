@@ -116,7 +116,26 @@ class _LoginPageState extends State<LoginPage> {
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: ElevatedButton(
-              onPressed: () async {},
+              onPressed: () async {
+                /// @TODO: Add check if table id exists, and push dialog if not!
+                final snapshot =
+                await FirebaseDatabase.instance.ref().child('/${idController.text}/players/${nameController.text}').get();
+                if (snapshot.exists) {
+                  bool cont = false;
+                  await showDialog<bool>(
+                    context: context,
+                    builder: (context) => _buildExistingPlayerDialog(context),
+                  ).then((value) {
+                    cont = value ?? false;
+                  });
+
+                  if(cont){
+                    /// @TODO: add code to push the current route onto the screen
+                  } else {
+                    /// @TODO: add code to do nothing
+                  }
+                }
+              },
               child: Padding(
                 padding: buttonTextPadding,
                 child: Text(
