@@ -84,6 +84,12 @@ class _LoginPageState extends State<LoginPage> {
                 print(snapshot.value);
                 print(snapshot.exists);
                 if (snapshot.exists) {
+
+                  await showDialog<AlertDialog>(
+                    context: context,
+                    builder: (context) => _buildPopupDialog(context),
+                  );
+
                   /// @TODO: Add an alarm about an existing table here!
                   // ScaffoldMessenger.of(context).showSnackBar(
                   //   SnackBar(
@@ -97,19 +103,31 @@ class _LoginPageState extends State<LoginPage> {
                   //   ),
                   // );
                 } else {
-                  Map<String, dynamic> innerInnerJson = <String, dynamic>{'chips': 0, 'gameMaster': true};
-                  Map<String, dynamic> innerJson = <String, dynamic>{nameController.text: innerInnerJson};
+                  Map<String, dynamic> innerInnerJson = <String, dynamic>{
+                    'chips': 0,
+                    'gameMaster': true
+                  };
+                  Map<String, dynamic> innerJson = <String, dynamic>{
+                    nameController.text: innerInnerJson
+                  };
                   // Map<String, dynamic> json = <String, dynamic>{idController.text: innerJson};
-                  Map<String, dynamic> json = <String, dynamic>{'message': 'message', 'done': false};
+                  Map<String, dynamic> json = <String, dynamic>{
+                    'message': 'message',
+                    'done': false
+                  };
 
-                  await FirebaseDatabase.instance.ref().child('/${idController.text}').push().set(json);
+                  await FirebaseDatabase.instance
+                      .ref()
+                      .child('/${idController.text}')
+                      .push()
+                      .set(json);
                 }
               },
               child: Padding(
                 padding: buttonTextPadding,
                 child: Text(
                   'Create Table',
-                  style: TextStyle(color: colorScheme.onSurface),
+                  style: TextStyle(color: colorScheme.onPrimary),
                 ),
               ),
             ),
@@ -117,9 +135,7 @@ class _LoginPageState extends State<LoginPage> {
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: ElevatedButton(
-              onPressed: () async {
-
-              },
+              onPressed: () async {},
               child: Padding(
                 padding: buttonTextPadding,
                 child: Text(
@@ -131,6 +147,29 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Table already exists'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          Text('This table ID is already in use. If you\'re trying to join it, please click "Join Table", otherwise change the ID to one that isn\'t already in use'),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text(
+            'Okay',
+          ),
+        ),
+      ],
     );
   }
 
@@ -235,6 +274,7 @@ class _ShrineLogo extends StatelessWidget {
       child: Column(
         children: [
           const FadeInImagePlaceholder(
+            /// @TODO: Add a new image and replace the placeholder"!
             image: AssetImage('packages/shrine_images/diamond.png'),
             placeholder: SizedBox(
               width: 34,
