@@ -87,30 +87,13 @@ class _LoginPageState extends State<LoginPage> {
 
                   await showDialog<AlertDialog>(
                     context: context,
-                    builder: (context) => _buildPopupDialog(context),
+                    builder: (context) => _buildExistingTableDialog(context),
                   );
-
-                  /// @TODO: Add an alarm about an existing table here!
-                  // ScaffoldMessenger.of(context).showSnackBar(
-                  //   SnackBar(
-                  //     content: SnackBar(
-                  //       content: Text(
-                  //         'Create Table',
-                  //         style: TextStyle(color: colorScheme.onSurface),
-                  //       ),
-                  //       duration: const Duration(seconds: 1),
-                  //     ),
-                  //   ),
-                  // );
                 } else {
                   Map<String, dynamic> innerInnerJson = <String, dynamic>{
                     'chips': 0,
                     'gameMaster': true
                   };
-                  Map<String, dynamic> innerJson = <String, dynamic>{
-                    nameController.text: innerInnerJson
-                  };
-                  // Map<String, dynamic> json = <String, dynamic>{idController.text: innerJson};
                   Map<String, dynamic> json = <String, dynamic>{
                     'message': 'message',
                     'done': false
@@ -150,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildPopupDialog(BuildContext context) {
+  Widget _buildExistingTableDialog(BuildContext context) {
     return AlertDialog(
       title: const Text('Table already exists'),
       content: Column(
