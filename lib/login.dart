@@ -153,6 +153,42 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
   }
+  Widget _buildExistingPlayerDialog(BuildContext context) {
+    bool isDesktop = isDisplayDesktop(context);
+    EdgeInsets buttonTextPadding =
+    isDesktop ? const EdgeInsets.symmetric(horizontal: 12, vertical: 8) : EdgeInsets.zero;
+    return AlertDialog(
+      title: const Text('Player already exists'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          Text('This name is already in use. If you\'re trying to rejoin, click "Proceed", otherwise change the name to one that isn\'t already in use'),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context, false);
+          },
+          child: const Text(
+            'Cancel',
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context, true);
+          },
+          child: Padding(
+            padding: buttonTextPadding,
+            child: Text(
+              'Join Table',
+              style: TextStyle(letterSpacing: letterSpacingOrNone(largeLetterSpacing)),
+            ),
+          ),
+        ),      ],
+    );
+  }
 
   Widget nameTextField() {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
