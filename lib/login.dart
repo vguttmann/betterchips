@@ -68,7 +68,8 @@ class _LoginPageState extends State<LoginPage> {
             child: TextButton(
               onPressed: () async {
                 try {
-                  final userCredential = await FirebaseAuth.instance.signInAnonymously();
+                  //final userCredential =
+                  await FirebaseAuth.instance.signInAnonymously();
                   debugPrint('Signed in with temporary account.');
                 } on FirebaseAuthException catch (e) {
                   switch (e.code) {
@@ -81,8 +82,6 @@ class _LoginPageState extends State<LoginPage> {
                 }
                 final snapshot =
                     await FirebaseDatabase.instance.ref().child('/${idController.text}').get();
-                print(snapshot.value);
-                print(snapshot.exists);
                 if (snapshot.exists) {
 
                   await showDialog<AlertDialog>(
@@ -90,13 +89,12 @@ class _LoginPageState extends State<LoginPage> {
                     builder: (context) => _buildExistingTableDialog(context),
                   );
                 } else {
-                  Map<String, dynamic> innerInnerJson = <String, dynamic>{
+                  Map<String, dynamic> innerJson = <String, dynamic>{
                     'chips': 0,
                     'gameMaster': true
                   };
                   Map<String, dynamic> json = <String, dynamic>{
-                    'message': 'message',
-                    'done': false
+                    nameController.text: innerJson
                   };
 
                   await FirebaseDatabase.instance
