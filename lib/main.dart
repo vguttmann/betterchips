@@ -1,4 +1,5 @@
-import 'package:betterchips/game.dart';
+import 'game.dart';
+import 'setup.dart';
 import 'package:betterchips/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +27,8 @@ Future<void> main() async {
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
         '/': (context) => const LoginPage(),
-        // When navigating to the "/ln" route, build the FogiirstScreen widget.
         // When navigating to the "/game" route, build the SecondScreen widget.
+        '/setup': (context) => const SetupScreen(),
         '/game': (context) => const GameScreen(),
       },
     ),
