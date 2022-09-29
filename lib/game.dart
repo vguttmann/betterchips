@@ -32,7 +32,80 @@ class _GameScreenState extends State<GameScreen> {
         title: const Text('Second Screen'),
       ),
       body: const Center(
-        child: Text('Game'),
+        child: PlayerCard(),
+      ),
+    );
+  }
+}
+
+class PlayerCard extends StatelessWidget {
+  const PlayerCard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 400,
+      height: 300,
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Name',
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  Text(
+                    'GM',
+                    style: Theme.of(context).textTheme.headline4,
+                  )
+                ],
+              ),
+              const Spacer(flex: 1),
+              Text(
+                'Role',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              const Spacer(
+                flex: 4
+              ),
+              Text(
+                'Status',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              const Spacer(
+                flex: 2
+              ),
+              Row(
+                children: [
+                  const Spacer(flex: 1),
+                  Text(
+                    'Chips: ',
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                  Text(
+                    '2000',
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                  const Spacer(flex: 4),
+                  Text(
+                    'Bet: ',
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                  Text(
+                    '2000',
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                  const Spacer(flex: 1),
+                ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
