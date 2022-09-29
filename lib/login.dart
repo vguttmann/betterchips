@@ -19,7 +19,6 @@ import 'package:flutter/scheduler.dart';
 
 import 'constants.dart';
 
-
 FirebaseAuth auth = FirebaseAuth.instanceFor(app: Firebase.app());
 
 const _horizontalPadding = 24.0;
@@ -115,29 +114,36 @@ class _LoginPageState extends State<LoginPage> {
                * Join Table
                */
               onPressed: () async {
-                /// @TODO: Add check if table id exists, and push dialog if not!
-
-                final snapshot =
+                final tableSnapshot =
                     await FirebaseDatabase.instance.ref().child('/${idController.text}').get();
 
-                if (snapshot.exists) {
-                  final snapshot2 = await FirebaseDatabase.instance
+                if (tableSnapshot.exists) {
+                  final playerSnapshot = await FirebaseDatabase.instance
                       .ref()
                       .child('/${idController.text}/players/${nameController.text}')
                       .get();
-                  if (snapshot2.exists) {
-                    bool cont = false;
-                    await showDialog<bool>(
-                      context: context,
-                      builder: (context) => _buildExistingPlayerDialog(context),
-                    ).then((value) {
-                      cont = value ?? false;
-                    });
+                  if (playerSnapshot.exists) {
+                    final settingsSnapshot = await FirebaseDatabase.instance
+                        .ref()
+                        .child('${idController.text}/setup')
+                        .get();
+                    Map<String, dynamic>? json = settingsSnapshot.value as Map<String, dynamic>?;
+                    if ((json?['setupFinished'] as bool?) ?? false) {
+                      bool cont = false;
+                      await showDialog<bool>(
+                        context: context,
+                        builder: (context) => _buildExistingPlayerDialog(context),
+                      ).then((value) {
+                        cont = value ?? false;
+                      });
 
-                    if (cont) {
-                      /// @TODO: add code to push the current route onto the screen
+                      if (cont) {
+                        await Navigator.pushReplacementNamed(context, '/game');
+                      }
                     } else {
-                      /// @TODO: add code to do nothing
+                      await showDialog<AlertDialog>(
+                          context: context,
+                          builder: (context) => _buildUnfinishedSetupDialog(context));
                     }
                   }
                 } else {
@@ -185,6 +191,30 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget _buildUnfinishedSetupDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Setup isn\'t complete!'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          Text(
+              'This table is not ready yet. Please wait for your game leader to finish setup, then join the table.'),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text(
+            'Okay',
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildExistingPlayerDialog(BuildContext context) {
     bool isDesktop = isDisplayDesktop(context);
     EdgeInsets buttonTextPadding =
@@ -215,7 +245,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Padding(
             padding: buttonTextPadding,
             child: Text(
-              'Join Table',
+              'Proceed',
               style: TextStyle(letterSpacing: letterSpacingOrNone(largeLetterSpacing)),
             ),
           ),
