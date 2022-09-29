@@ -5,6 +5,7 @@
 import 'dart:math';
 
 import 'package:betterchips/data/gallery_options.dart';
+import 'package:betterchips/game.dart';
 import 'package:betterchips/layout/adaptive.dart';
 import 'package:betterchips/layout/image_placeholder.dart';
 import 'package:betterchips/layout/letter_spacing.dart';
@@ -66,6 +67,9 @@ class _LoginPageState extends State<LoginPage> {
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: TextButton(
+              /**
+               * Create Table
+               */
               onPressed: () async {
                 try {
                   //final userCredential =
@@ -83,25 +87,18 @@ class _LoginPageState extends State<LoginPage> {
                 final snapshot =
                     await FirebaseDatabase.instance.ref().child('/${idController.text}').get();
                 if (snapshot.exists) {
-
                   await showDialog<AlertDialog>(
                     context: context,
                     builder: (context) => _buildExistingTableDialog(context),
                   );
                 } else {
-                  Map<String, dynamic> innerJson = <String, dynamic>{
-                    'chips': 0,
-                    'gameMaster': true
-                  };
-                  Map<String, dynamic> json = <String, dynamic>{
-                    nameController.text: innerJson
-                  };
+                  Map<String, dynamic> json = <String, dynamic>{'chips': 0, 'gameMaster': true};
 
                   await FirebaseDatabase.instance
                       .ref()
-                      .child('/${idController.text}')
-                      .push()
+                      .child('/${idController.text}/players/${nameController.text}')
                       .set(json);
+                  await Navigator.pushReplacementNamed(context, '/setup');
                 }
               },
               child: Padding(
@@ -116,24 +113,40 @@ class _LoginPageState extends State<LoginPage> {
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: ElevatedButton(
+              /**
+               * Join Table
+               */
               onPressed: () async {
                 /// @TODO: Add check if table id exists, and push dialog if not!
+
                 final snapshot =
-                await FirebaseDatabase.instance.ref().child('/${idController.text}/players/${nameController.text}').get();
+                    await FirebaseDatabase.instance.ref().child('/${idController.text}').get();
+
                 if (snapshot.exists) {
-                  bool cont = false;
+                  final snapshot2 = await FirebaseDatabase.instance
+                      .ref()
+                      .child('/${idController.text}/players/${nameController.text}')
+                      .get();
+                  if (snapshot2.exists) {
+                    bool cont = false;
+                    await showDialog<bool>(
+                      context: context,
+                      builder: (context) => _buildExistingPlayerDialog(context),
+                    ).then((value) {
+                      cont = value ?? false;
+                    });
+
+                    if (cont) {
+                      /// @TODO: add code to push the current route onto the screen
+                    } else {
+                      /// @TODO: add code to do nothing
+                    }
+                  }
+                } else {
                   await showDialog<bool>(
                     context: context,
-                    builder: (context) => _buildExistingPlayerDialog(context),
-                  ).then((value) {
-                    cont = value ?? false;
-                  });
-
-                  if(cont){
-                    /// @TODO: add code to push the current route onto the screen
-                  } else {
-                    /// @TODO: add code to do nothing
-                  }
+                    builder: (context) => _buildNullTableDialog(context),
+                  );
                 }
               },
               child: Padding(
@@ -157,7 +170,8 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const <Widget>[
-          Text('This table ID is already in use. If you\'re trying to join it, please click "Join Table", otherwise change the ID to one that isn\'t already in use'),
+          Text(
+              'This table ID is already in use. If you\'re trying to join it, please click "Join Table", otherwise change the ID to one that isn\'t already in use'),
         ],
       ),
       actions: <Widget>[
@@ -172,17 +186,19 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
   }
+
   Widget _buildExistingPlayerDialog(BuildContext context) {
     bool isDesktop = isDisplayDesktop(context);
     EdgeInsets buttonTextPadding =
-    isDesktop ? const EdgeInsets.symmetric(horizontal: 12, vertical: 8) : EdgeInsets.zero;
+        isDesktop ? const EdgeInsets.symmetric(horizontal: 12, vertical: 8) : EdgeInsets.zero;
     return AlertDialog(
       title: const Text('Player already exists'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const <Widget>[
-          Text('This name is already in use. If you\'re trying to rejoin, click "Proceed", otherwise change the name to one that isn\'t already in use'),
+          Text(
+              'This name is already in use. If you\'re trying to rejoin, click "Proceed", otherwise change the name to one that isn\'t already in use'),
         ],
       ),
       actions: <Widget>[
@@ -205,7 +221,32 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(letterSpacing: letterSpacingOrNone(largeLetterSpacing)),
             ),
           ),
-        ),      ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNullTableDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Table doesn\'t exist!'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          Text(
+              'This Table ID does not exist. If you\'re trying to create it, close this  dialog and click "Create Table", otherwise enter a valid Table ID.'),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text(
+            'Okay',
+          ),
+        ),
+      ],
     );
   }
 
@@ -227,6 +268,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget idTextField() {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return TextField(
+      controller: idController,
       cursorColor: colorScheme.onSurface,
       decoration: InputDecoration(
         labelText: 'Table ID',
