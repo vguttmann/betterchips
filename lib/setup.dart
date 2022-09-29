@@ -29,8 +29,8 @@ class _SetupScreenState extends State<SetupScreen> {
   @override
   void initState() {
     super.initState();
-    minBetController = TextEditingController();
-    initialMoneyController = TextEditingController();
+    minBetController = TextEditingController(text: '25');
+    initialMoneyController = TextEditingController(text: '1000');
   }
 
   @override
@@ -50,7 +50,6 @@ class _SetupScreenState extends State<SetupScreen> {
             children: [
               TextFormField(
                 controller: initialMoneyController,
-                initialValue: '1000',
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
                 cursorColor: colorScheme.onSurface,
@@ -67,7 +66,6 @@ class _SetupScreenState extends State<SetupScreen> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: minBetController,
-                initialValue: '25',
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
                 cursorColor: colorScheme.onSurface,
