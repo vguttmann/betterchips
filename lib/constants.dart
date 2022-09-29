@@ -21,3 +21,7 @@ const splashPageAnimationDurationInMilliseconds = 300;
 
 // The desktop top padding for a page's first header (e.g. Gallery, Settings)
 const firstHeaderDesktopTopPadding = 5.0;
+
+const defaultLetterSpacing = 0.03;
+const mediumLetterSpacing = 0.04;
+const largeLetterSpacing = 1.0;

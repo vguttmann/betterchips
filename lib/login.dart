@@ -19,9 +19,7 @@ import 'package:flutter/scheduler.dart';
 
 import 'constants.dart';
 
-const defaultLetterSpacing = 0.03;
-const mediumLetterSpacing = 0.04;
-const largeLetterSpacing = 1.0;
+
 FirebaseAuth auth = FirebaseAuth.instanceFor(app: Firebase.app());
 
 const _horizontalPadding = 24.0;
