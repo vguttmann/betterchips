@@ -44,7 +44,14 @@ class _GameScreenState extends State<GameScreen> {
 }
 
 class PlayerCard extends StatelessWidget {
-  const PlayerCard({Key? key}) : super(key: key);
+  const PlayerCard({Key? key, required this.role, required this.isGameMaster}) : super(key: key);
+
+  final bool isGameMaster;
+  final Role role;
+
+  TextStyle injectBackgroundColor(Color color, TextStyle textStyle) {
+    return textStyle.copyWith(color: color);
+  }
 
   @override
   Widget build(BuildContext context) {
