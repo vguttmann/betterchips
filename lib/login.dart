@@ -308,7 +308,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    bool isDesktop = isDisplayDesktop(context);
     return ModelBinding(
       initialModel: GalleryOptions(
         themeMode: ThemeMode.system,
@@ -320,58 +319,33 @@ class _LoginPageState extends State<LoginPage> {
         isTestMode: true,
       ),
       child: ApplyTextOptions(
-        child: isDesktop
-            ? LayoutBuilder(
-                builder: (context, constraints) => Scaffold(
-                  body: SafeArea(
-                    child: Center(
-                      child: SizedBox(
-                        width: desktopLoginScreenMainAreaWidth(context: context),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const _ShrineLogo(),
-                            const SizedBox(height: 40),
-                            nameTextField(),
-                            const SizedBox(height: 16),
-                            idTextField(),
-                            const SizedBox(height: 24),
-                            actionButtons(),
-                            const SizedBox(height: 62),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            : Scaffold(
-                body: SafeArea(
-                  child: ListView(
-                    restorationId: 'login_list_view',
-                    physics: const ClampingScrollPhysics(),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: _horizontalPadding,
-                    ),
-                    children: [
-                      const SizedBox(height: 80),
-                      const _ShrineLogo(),
-                      const SizedBox(height: 120),
-                      nameTextField(),
-                      const SizedBox(height: 12),
-                      idTextField(),
-                      actionButtons(),
-                    ],
-                  ),
-                ),
+        child: Scaffold(
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: _horizontalPadding,
               ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const BetterchipsLogo(),
+                  const SizedBox(height: 40),
+                  nameTextField(),
+                  const SizedBox(height: 12),
+                  idTextField(),
+                  actionButtons(),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
 }
 
-class _ShrineLogo extends StatelessWidget {
-  const _ShrineLogo();
+class BetterchipsLogo extends StatelessWidget {
+  const BetterchipsLogo();
 
   @override
   Widget build(BuildContext context) {

@@ -49,21 +49,18 @@ class PlayerCard extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Flexible(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.orangeAccent, borderRadius: BorderRadius.circular(4.0)),
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 2),
-                          ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 6),
-                          ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 2),
-                          ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 6)),
-                      child: Text(
-                        'Name',
-                        style: Theme.of(context).textTheme.headline4,
-                      ),
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(
+                        ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 2),
+                        ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 4),
+                        ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 2),
+                        ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 6)),
+                    child: Text(
+                      'Vincent',
+                      style: Theme.of(context).textTheme.headline4,
                     ),
                   ),
                 ),
