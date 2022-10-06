@@ -5,7 +5,6 @@
 import 'dart:math';
 
 import 'package:betterchips/data/gallery_options.dart';
-import 'package:betterchips/game.dart';
 import 'package:betterchips/layout/adaptive.dart';
 import 'package:betterchips/layout/image_placeholder.dart';
 import 'package:betterchips/layout/letter_spacing.dart';

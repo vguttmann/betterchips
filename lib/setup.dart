@@ -1,22 +1,10 @@
-import 'package:flutter/material.dart';
-import 'dart:math';
-
-import 'package:betterchips/data/gallery_options.dart';
-import 'package:betterchips/layout/adaptive.dart';
-import 'package:betterchips/layout/image_placeholder.dart';
 import 'package:betterchips/layout/letter_spacing.dart';
-import 'package:betterchips/layout/text_scale.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 import 'constants.dart';
 
 class SetupScreen extends StatefulWidget {
-  const SetupScreen({Key? key}) : super(key: key);
+  const SetupScreen({super.key});
 
   @override
   State<SetupScreen> createState() => _SetupScreenState();
@@ -53,7 +41,7 @@ class _SetupScreenState extends State<SetupScreen> {
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
                 cursorColor: colorScheme.onSurface,
-                validator: (String? value) {
+                validator: (value) {
                   return (value != null && value.contains('[^0-9]')) ? 'Please input an integer' : null;
                 },
                 decoration: InputDecoration(
@@ -69,7 +57,7 @@ class _SetupScreenState extends State<SetupScreen> {
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
                 cursorColor: colorScheme.onSurface,
-                validator: (String? value) {
+                validator: (value) {
                   return (value != null && value.contains('[^0-9]')) ? 'Please input an integer' : null;
                 },
                 decoration: InputDecoration(
