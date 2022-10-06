@@ -345,7 +345,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class BetterchipsLogo extends StatelessWidget {
-  const BetterchipsLogo();
+  const BetterchipsLogo({super.key});
 
   @override
   Widget build(BuildContext context) {
