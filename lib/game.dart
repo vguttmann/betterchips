@@ -15,8 +15,10 @@ import 'package:flutter/scheduler.dart';
 
 import 'constants.dart';
 
+enum Role { player, smallBlind, bigBlind, dealer }
+
 class GameScreen extends StatefulWidget {
-  const GameScreen({Key? key}) : super(key: key);
+  const GameScreen({super.key});
 
   @override
   State<GameScreen> createState() => _GameScreenState();
@@ -28,11 +30,14 @@ class _GameScreenState extends State<GameScreen> {
     return Scaffold(
       appBar: AppBar(
         /// disables the "back" button in the AppBar
-        //automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false,
         title: const Text('Second Screen'),
       ),
       body: const Center(
-        child: PlayerCard(),
+        child: PlayerCard(
+          isGameMaster: true,
+          role: Role.bigBlind,
+        ),
       ),
     );
   }
@@ -44,67 +49,105 @@ class PlayerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 400,
-      height: 300,
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 4),
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Name',
-                    style: Theme.of(context).textTheme.headline4,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.orangeAccent, borderRadius: BorderRadius.circular(4.0)),
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 2),
+                          ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 6),
+                          ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 2),
+                          ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 6)),
+                      child: Text(
+                        'Name',
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                    ),
                   ),
-                  Text(
-                    'GM',
-                    style: Theme.of(context).textTheme.headline4,
-                  )
-                ],
-              ),
-              const Spacer(flex: 1),
-              Text(
-                'Role',
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              const Spacer(
-                flex: 4
-              ),
-              Text(
-                'Status',
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              const Spacer(
-                flex: 2
-              ),
-              Row(
-                children: [
-                  const Spacer(flex: 1),
-                  Text(
-                    'Chips: ',
-                    style: Theme.of(context).textTheme.headline5,
+                ),
+                Container(
+                  decoration: isGameMaster
+                      ? BoxDecoration(
+                          color: Colors.blueAccent, borderRadius: BorderRadius.circular(4.0))
+                      : const BoxDecoration(),
+                  child: Padding(
+                    padding: EdgeInsets.all(
+                        (Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 6),
+                    child: Text(
+                      (isGameMaster ? 'GM' : ''),
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
                   ),
-                  Text(
-                    '2000',
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  const Spacer(flex: 4),
-                  Text(
-                    'Bet: ',
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  Text(
-                    '2000',
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  const Spacer(flex: 1),
-                ],
-              )
-            ],
-          ),
+                )
+              ],
+            ),
+            Padding(padding: EdgeInsets.all((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 5)),
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.purple, borderRadius: BorderRadius.circular(4.0)),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                    ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 4),
+                    ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 12),
+                    ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 4),
+                    ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 12)),
+                child: Text(
+                  'Role',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+              ),
+            ), /// Role
+            Padding(padding: EdgeInsets.all((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 5 * 2)),
+
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.red, borderRadius: BorderRadius.circular(4.0)),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                    ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 4),
+                    ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 12),
+                    ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 4),
+                    ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 12)),                child: Text(
+                  'Status',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+              ),
+            ),
+            Padding(padding: EdgeInsets.all((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 4)),
+            Row(
+              children: [
+                const Spacer(flex: 1),
+                Text(
+                  'Chips: ',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                Text(
+                  '2000',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                const Spacer(flex: 2),
+                Text(
+                  'Bet: ',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                Text(
+                  '2000',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                const Spacer(flex: 1),
+              ],
+            ),
+            Padding(padding: EdgeInsets.all((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 6)),
+          ],
         ),
       ),
     );
