@@ -40,7 +40,7 @@ class _SetupScreenState extends State<SetupScreen> {
     if (states.any(interactiveStates.contains)) {
       return Colors.red;
     }
-    return Colors.green;
+    return Colors.indigo;
   }
 
   @override
