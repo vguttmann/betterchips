@@ -147,11 +147,16 @@ class _SetupScreenState extends State<SetupScreen> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            Map<String, dynamic> json = <String, dynamic>{'chips': 0, 'gameMaster': true};
+            Map<String, dynamic> json = <String, dynamic>{
+              'initialMoney': initialMoneyController.text,
+              'minBet': minBetController.text,
+              'bigBetsDouble': bigBetsDouble,
+              'splitPot': splitPot
+            };
 
             await FirebaseDatabase.instance
                 .ref()
-                .child('/${args.gameID}/players/${args.name}')
+                .child('/${args.gameID}/setup/')
                 .set(json);
             await Navigator.pushReplacementNamed(context, '/game',
                 arguments: ScreenArguments(args.gameID, args.name));
