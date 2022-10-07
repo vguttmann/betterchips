@@ -153,8 +153,8 @@ class _SetupScreenState extends State<SetupScreen> {
                 .ref()
                 .child('/${args.gameID}/players/${args.name}')
                 .set(json);
-
-            Navigator.pushReplacementNamed(context, '/game');
+            await Navigator.pushReplacementNamed(context, '/game',
+                arguments: ScreenArguments(args.gameID, args.name));
           },
           child: const Icon(Icons.navigate_next)),
     );

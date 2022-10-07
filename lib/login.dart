@@ -139,7 +139,8 @@ class _LoginPageState extends State<LoginPage> {
                       });
 
                       if (cont) {
-                        await Navigator.pushReplacementNamed(context, '/game');
+                        await Navigator.pushReplacementNamed(context, '/game',
+                            arguments: ScreenArguments(idController.text, nameController.text));
                       }
                     } else {
                       await showDialog<AlertDialog>(

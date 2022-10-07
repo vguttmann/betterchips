@@ -1,3 +1,4 @@
+import 'package:betterchips/setup.dart';
 import 'package:flutter/material.dart';
 
 
@@ -13,16 +14,19 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+
     return Scaffold(
       appBar: AppBar(
         /// disables the "back" button in the AppBar
         automaticallyImplyLeading: false,
         title: const Text('Second Screen'),
       ),
-      body: const Center(
+      body: Center(
         child: PlayerCard(
           isGameMaster: true,
           role: Role.bigBlind,
+          name: args.name
         ),
       ),
     );
@@ -30,10 +34,11 @@ class _GameScreenState extends State<GameScreen> {
 }
 
 class PlayerCard extends StatelessWidget {
-  const PlayerCard({super.key, required this.role, required this.isGameMaster});
+  const PlayerCard({super.key, required this.role, required this.isGameMaster, required this.name});
 
   final bool isGameMaster;
   final Role role;
+  final String name;
 
   TextStyle injectBackgroundColor(Color color, TextStyle textStyle) {
     return textStyle.copyWith(color: color);
@@ -59,7 +64,7 @@ class PlayerCard extends StatelessWidget {
                         ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 2),
                         ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 6)),
                     child: Text(
-                      'Vincent',
+                      name,
                       style: Theme.of(context).textTheme.headline4,
                     ),
                   ),
