@@ -1,7 +1,15 @@
 import 'package:betterchips/layout/letter_spacing.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
+
+class ScreenArguments {
+  final String gameID;
+  final String name;
+
+  ScreenArguments(this.gameID, this.name);
+}
 
 class SetupScreen extends StatefulWidget {
   const SetupScreen({super.key});
@@ -38,6 +46,8 @@ class _SetupScreenState extends State<SetupScreen> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+
     return Scaffold(
       /// We don't need an AppBar where we're going
       // appBar: AppBar(
@@ -136,8 +146,14 @@ class _SetupScreenState extends State<SetupScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            ///@TODO: Add push settings to Firebase RTDB here, and mark round as set up!
+          onPressed: () async {
+            Map<String, dynamic> json = <String, dynamic>{'chips': 0, 'gameMaster': true};
+
+            await FirebaseDatabase.instance
+                .ref()
+                .child('/${args.gameID}/players/${args.name}')
+                .set(json);
+
             Navigator.pushReplacementNamed(context, '/game');
           },
           child: const Icon(Icons.navigate_next)),

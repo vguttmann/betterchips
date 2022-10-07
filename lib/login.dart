@@ -9,6 +9,7 @@ import 'package:betterchips/layout/adaptive.dart';
 import 'package:betterchips/layout/image_placeholder.dart';
 import 'package:betterchips/layout/letter_spacing.dart';
 import 'package:betterchips/layout/text_scale.dart';
+import 'package:betterchips/setup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -94,7 +95,8 @@ class _LoginPageState extends State<LoginPage> {
                       .ref()
                       .child('/${idController.text}/players/${nameController.text}')
                       .set(json);
-                  await Navigator.pushReplacementNamed(context, '/setup');
+                  await Navigator.pushReplacementNamed(context, '/setup',
+                      arguments: ScreenArguments(idController.text, nameController.text));
                 }
               },
               child: Padding(
