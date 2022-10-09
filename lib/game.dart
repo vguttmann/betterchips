@@ -45,6 +45,7 @@ class _GameScreenState extends State<GameScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const Divider(),
           Slider(
             value: currentBet,
             min: 0,
@@ -57,8 +58,11 @@ class _GameScreenState extends State<GameScreen> {
               });
             },
           ),
-          const Divider(),
-          0 == 0
+          Divider(
+            indent: (Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 3,
+            endIndent: (Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 3,
+          ),
+          currentBet == 0
               ? TextButton(onPressed: () {}, child: const Text('Fold'))
               : TextButton(onPressed: () {}, child: const Text('Bet'))
         ],
@@ -70,14 +74,7 @@ class _GameScreenState extends State<GameScreen> {
     //     automaticallyImplyLeading: false,
     //     title: const Text('Second Screen'),
     //   ),
-    //   body: Center(
-    //     child: PlayerCard(
-    //       isGameMaster: true,
-    //       role: Role.bigBlind,
-    //       name: args.name
-    //     ),
-    //   ),
-    // );
+
   }
 
   Future<void> getCurrentMoney() async {
