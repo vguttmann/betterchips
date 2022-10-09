@@ -68,13 +68,6 @@ class _GameScreenState extends State<GameScreen> {
         ],
       ),
     );
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     /// disables the "back" button in the AppBar
-    //     automaticallyImplyLeading: false,
-    //     title: const Text('Second Screen'),
-    //   ),
-
   }
 
   Future<void> getCurrentMoney() async {
