@@ -157,7 +157,56 @@ class _LoginPageState extends State<LoginPage> {
                             .value
                             .toString());
                         await Navigator.pushReplacementNamed(context, '/game',
-                            arguments: ScreenArguments(idController.text, nameController.text));
+                            arguments: ScreenArguments(
+                                idController.text, nameController.text, minBet, currentMoney));
+                      }
+                    } else {
+                      await showDialog<AlertDialog>(
+                          context: context,
+                          builder: (context) => _buildUnfinishedSetupDialog(context));
+                    }
+                  } else {
+                    ///Check if Setup has been completed
+                    final settingsSnapshot = await FirebaseDatabase.instance
+                        .ref()
+                        .child('${idController.text}/setup')
+                        .get();
+                    Map<String, dynamic>? json = settingsSnapshot.value as Map<String, dynamic>?;
+                    if ((json?['setupFinished'] as bool?) ?? false) {
+                      bool cont = false;
+                      await showDialog<bool>(
+                        context: context,
+                        builder: (context) => _buildExistingPlayerDialog(context),
+                      ).then((value) {
+                        cont = value ?? false;
+                      });
+
+                      if (cont) {
+                        int minBet = int.parse((await FirebaseDatabase.instance
+                                .ref()
+                                .child('/${idController.text}/setup/minBet')
+                                .get())
+                            .value
+                            .toString());
+                        int currentMoney = int.parse((await FirebaseDatabase.instance
+                                .ref()
+                                .child('/${idController.text}/setup/initialMoney')
+                                .get())
+                            .value
+                            .toString());
+
+                        Map<String, dynamic> json = <String, dynamic>{
+                          'chips': currentMoney,
+                          'gameMaster': false
+                        };
+
+                        await FirebaseDatabase.instance
+                            .ref()
+                            .child('/${idController.text}/players/${nameController.text}')
+                            .set(json);
+                        await Navigator.pushReplacementNamed(context, '/game',
+                            arguments: ScreenArguments(
+                                idController.text, nameController.text, minBet, currentMoney));
                       }
                     } else {
                       await showDialog<AlertDialog>(
