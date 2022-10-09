@@ -15,6 +15,7 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   late int minBet;
   late int currentMoney;
+  double currentBet = 0;
 
   @override
   void initState() {
@@ -31,8 +32,6 @@ class _GameScreenState extends State<GameScreen> {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
     currentMoney = args.currentMoney;
     minBet = args.minBet;
-
-    double currentBet = 0;
 
     return Scaffold(
       body: FirebaseAnimatedList(
@@ -52,7 +51,7 @@ class _GameScreenState extends State<GameScreen> {
             max: currentMoney.toDouble(),
             divisions: (currentMoney / minBet).round(),
             label: currentBet.round().toString(),
-            onChanged: (double value) {
+            onChanged: (value) {
               setState(() {
                 currentBet = value;
               });
