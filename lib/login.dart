@@ -144,6 +144,18 @@ class _LoginPageState extends State<LoginPage> {
                       });
 
                       if (cont) {
+                        int minBet = int.parse((await FirebaseDatabase.instance
+                                .ref()
+                                .child('/${idController.text}/setup/minBet')
+                                .get())
+                            .value
+                            .toString());
+                        int currentMoney = int.parse((await FirebaseDatabase.instance
+                                .ref()
+                                .child('/${idController.text}/players/${nameController.text}/chips')
+                                .get())
+                            .value
+                            .toString());
                         await Navigator.pushReplacementNamed(context, '/game',
                             arguments: ScreenArguments(idController.text, nameController.text));
                       }
