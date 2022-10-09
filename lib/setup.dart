@@ -149,19 +149,29 @@ class _SetupScreenState extends State<SetupScreen> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            Map<String, dynamic> json = <String, dynamic>{
-              'initialMoney': initialMoneyController.text,
-              'minBet': minBetController.text,
-              'bigBetsDouble': bigBetsDouble,
-              'splitPot': splitPot
-            };
+            if (int.parse(initialMoneyController.text) % int.parse(minBetController.text) == 0) {
+              Map<String, dynamic> json = <String, dynamic>{
+                'initialMoney': int.parse(initialMoneyController.text),
+                'minBet': int.parse(minBetController.text),
+                'bigBetsDouble': bigBetsDouble,
+                'splitPot': splitPot,
+                'setupFinished': true,
+              };
 
-            await FirebaseDatabase.instance
-                .ref()
-                .child('/${args.gameID}/setup/')
-                .set(json);
-            await Navigator.pushReplacementNamed(context, '/game',
-                arguments: ScreenArguments(args.gameID, args.name));
+              await FirebaseDatabase.instance.ref().child('/${args.gameID}/setup/').set(json);
+              await FirebaseDatabase.instance
+                  .ref()
+                  .child('${args.gameID}/players/${args.name}/')
+                  .update({'chips': int.parse(initialMoneyController.text)});
+              await Navigator.pushReplacementNamed(context, '/game',
+                  arguments: ScreenArguments(args.gameID, args.name,
+                      int.parse(minBetController.text), int.parse(initialMoneyController.text)));
+            } else {
+              await showDialog<AlertDialog>(
+                context: context,
+                builder: (context) => _buildNotDivisibleDialog(context),
+              );
+            }
           },
           child: const Icon(Icons.navigate_next)),
     );
