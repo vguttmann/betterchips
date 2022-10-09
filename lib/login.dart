@@ -115,15 +115,20 @@ class _LoginPageState extends State<LoginPage> {
                * Join Table
                */
               onPressed: () async {
+                ///
+                /// Check if table exists
                 final tableSnapshot =
                     await FirebaseDatabase.instance.ref().child('/${idController.text}').get();
-
                 if (tableSnapshot.exists) {
+                  ///
+                  /// Check if Player exists
                   final playerSnapshot = await FirebaseDatabase.instance
                       .ref()
                       .child('/${idController.text}/players/${nameController.text}')
                       .get();
                   if (playerSnapshot.exists) {
+                    ///
+                    ///Check if Setup has been completed
                     final settingsSnapshot = await FirebaseDatabase.instance
                         .ref()
                         .child('${idController.text}/setup')
