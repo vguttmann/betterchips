@@ -7,8 +7,10 @@ import 'constants.dart';
 class ScreenArguments {
   final String gameID;
   final String name;
+  final int minBet;
+  final int currentMoney;
 
-  ScreenArguments(this.gameID, this.name);
+  ScreenArguments(this.gameID, this.name, this.minBet, this.currentMoney);
 }
 
 class SetupScreen extends StatefulWidget {

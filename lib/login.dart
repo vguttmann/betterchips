@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                       .child('/${idController.text}/players/${nameController.text}')
                       .set(json);
                   await Navigator.pushReplacementNamed(context, '/setup',
-                      arguments: ScreenArguments(idController.text, nameController.text));
+                      arguments: ScreenArguments(idController.text, nameController.text, 0, 0));
                 }
               },
               child: Padding(
