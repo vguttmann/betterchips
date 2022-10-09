@@ -176,4 +176,28 @@ class _SetupScreenState extends State<SetupScreen> {
           child: const Icon(Icons.navigate_next)),
     );
   }
+
+  Widget _buildNotDivisibleDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Initial chips not divisible by minimum bet!'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          Text(
+              'The initial amount of money isn\'t divisible by the minimum Bet. Please change either value so they are wholly divisible.'),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text(
+            'Okay',
+          ),
+        ),
+      ],
+    );
+  }
 }
