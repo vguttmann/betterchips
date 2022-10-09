@@ -27,6 +27,11 @@ class _GameScreenState extends State<GameScreen> {
     return FirebaseDatabase.instance.ref().child('/${args.gameID}/players');
   }
 
+  /// @TODO: Add rotating of roles!
+  /// @TODO: Add inability of dealer to do stuff!
+  /// @TODO: Add minimum player count check! (min 3 players)
+  /// @TODO: Add the ability to remove players from the round!
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
@@ -38,7 +43,7 @@ class _GameScreenState extends State<GameScreen> {
         query: getPlayers(),
         itemBuilder: (context, snapshot, animation, index) {
           dynamic json = snapshot.value;
-          return PlayerCard(json: json, name: snapshot.key ?? "Error");
+          return PlayerCard(json: json, name: snapshot.key ?? 'Error');
         },
       ),
       bottomNavigationBar: Column(
@@ -62,6 +67,14 @@ class _GameScreenState extends State<GameScreen> {
             indent: (Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 3,
             endIndent: (Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 3,
           ),
+
+          /// @TODO: Add putting current bet here!
+          /// @TODO: Add match, fold, raise, reraise and knock buttons depending on context!
+          /// @TODO: Style buttons and slider!
+          /// @TODO: Add code to remove money from player and add to bet!
+          /// @TODO: Add splitting the pot with all-in!
+          /// @TODO: add "all-in" code!
+
           currentBet == 0
               ? TextButton(onPressed: () {}, child: const Text('Fold'))
               : TextButton(onPressed: () {}, child: const Text('Bet'))
@@ -91,6 +104,8 @@ class _GameScreenState extends State<GameScreen> {
 }
 
 class PlayerCard extends StatelessWidget {
+  /// @TODO: Add proper Markup for small big and dealer
+
   const PlayerCard({super.key, required this.json, required this.name});
 
   final dynamic json;
