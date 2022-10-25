@@ -16,6 +16,8 @@ class _GameScreenState extends State<GameScreen> {
   late int minBet;
   late int currentMoney;
   double currentBet = 0;
+  int call = 0;
+  int pot = 0;
 
   @override
   void initState() {
@@ -39,6 +41,38 @@ class _GameScreenState extends State<GameScreen> {
     minBet = args.minBet;
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.indigo[900],
+        title: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Call: ',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+
+              Text(
+                call.toString(),
+                style: Theme.of(context).textTheme.headline5,
+              )
+            ],
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Pot: ',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              Text(
+                pot.toString(),
+                style: Theme.of(context).textTheme.headline5,
+              ),
+            ],
+          )
+        ]),
+      ),
       body: FirebaseAnimatedList(
         query: getPlayers(),
         itemBuilder: (context, snapshot, animation, index) {
@@ -97,7 +131,7 @@ class _GameScreenState extends State<GameScreen> {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
 
     minBet = int.parse(
-        (await FirebaseDatabase.instance.ref().child('/${args.gameID}/setup/minBet').get())
+        (await FirebaseDatabase.instance.ref().child('/${args.gameID}/data/minBet').get())
             .value
             .toString());
   }
@@ -137,7 +171,7 @@ class PlayerCard extends StatelessWidget {
                         ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 6)),
                     child: Text(
                       name,
-                      style: Theme.of(context).textTheme.headline4,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
                 ),
