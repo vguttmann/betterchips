@@ -16,9 +16,9 @@ Future<void> main() async {
       title: 'Named Routes Demo',
 
       // Define a dark, indigo and green theme
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.indigo)
-            .copyWith(secondary: Colors.green, brightness: Brightness.dark),
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.indigo)
+              .copyWith(secondary: Colors.green, brightness: Brightness.dark),
       ),
 
       // Start the app with the "/" named route. In this case, the app starts
