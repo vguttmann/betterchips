@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                     ///Check if Setup has been completed
                     final settingsSnapshot = await FirebaseDatabase.instance
                         .ref()
-                        .child('${idController.text}/setup')
+                        .child('${idController.text}/data')
                         .get();
                     Map<String, dynamic>? json = settingsSnapshot.value as Map<String, dynamic>?;
                     if ((json?['setupFinished'] as bool?) ?? false) {
@@ -146,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                       if (cont) {
                         int minBet = int.parse((await FirebaseDatabase.instance
                                 .ref()
-                                .child('/${idController.text}/setup/minBet')
+                                .child('/${idController.text}/data/minBet')
                                 .get())
                             .value
                             .toString());
@@ -169,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                     ///Check if Setup has been completed
                     final settingsSnapshot = await FirebaseDatabase.instance
                         .ref()
-                        .child('${idController.text}/setup')
+                        .child('${idController.text}/data')
                         .get();
                     Map<String, dynamic>? json = settingsSnapshot.value as Map<String, dynamic>?;
                     if ((json?['setupFinished'] as bool?) ?? false) {
@@ -184,13 +184,13 @@ class _LoginPageState extends State<LoginPage> {
                       if (cont) {
                         int minBet = int.parse((await FirebaseDatabase.instance
                                 .ref()
-                                .child('/${idController.text}/setup/minBet')
+                                .child('/${idController.text}/data/minBet')
                                 .get())
                             .value
                             .toString());
                         int currentMoney = int.parse((await FirebaseDatabase.instance
                                 .ref()
-                                .child('/${idController.text}/setup/initialMoney')
+                                .child('/${idController.text}/data/initialMoney')
                                 .get())
                             .value
                             .toString());

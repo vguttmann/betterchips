@@ -158,7 +158,7 @@ class _SetupScreenState extends State<SetupScreen> {
                 'setupFinished': true,
               };
 
-              await FirebaseDatabase.instance.ref().child('/${args.gameID}/setup/').set(json);
+              await FirebaseDatabase.instance.ref().child('/${args.gameID}/data/').set(json);
               await FirebaseDatabase.instance
                   .ref()
                   .child('${args.gameID}/players/${args.name}/')
