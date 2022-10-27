@@ -51,7 +51,6 @@ class _GameScreenState extends State<GameScreen> {
                 'Call: ',
                 style: Theme.of(context).textTheme.headline5,
               ),
-
               Text(
                 call.toString(),
                 style: Theme.of(context).textTheme.headline5,
@@ -149,9 +148,22 @@ class PlayerCard extends StatelessWidget {
     return textStyle.copyWith(color: color);
   }
 
+  String getRole(dynamic role) {
+    if (role == 'smallBlind') {
+      return 'Small Blind';
+    }
+    else if (role == 'bigBlind') {
+      return 'Big Blind';
+    } else if (role == 'dealer') {
+      return 'Dealer';
+    }
+    return 'Player';
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isGameMaster = json['gameMaster'].toString().toLowerCase() == 'true';
+    String role = getRole(json['role']);
     return Container(
       padding: EdgeInsets.all((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 4),
       child: Card(
@@ -171,7 +183,7 @@ class PlayerCard extends StatelessWidget {
                         ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 6)),
                     child: Text(
                       name,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).textTheme.headline4,
                     ),
                   ),
                 ),
@@ -204,7 +216,8 @@ class PlayerCard extends StatelessWidget {
                     ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 4),
                     ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 12)),
                 child: Text(
-                  'Role',
+                  // role,
+                  role,
                   style: Theme.of(context).textTheme.headline5,
                 ),
               ),

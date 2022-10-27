@@ -7,7 +7,6 @@ import 'package:dual_screen/dual_screen.dart';
 import 'package:flutter/material.dart';
 
 /// The maximum width taken up by each item on the home screen.
-const maxHomeItemWidth = 1400.0;
 
 /// Returns a boolean value whether the window is considered medium or large size.
 ///
@@ -24,9 +23,6 @@ bool isDisplayDesktop(BuildContext context) =>
 /// Returns boolean value whether the window is considered medium size.
 ///
 /// Used to build adaptive and responsive layouts.
-bool isDisplaySmallDesktop(BuildContext context) {
-  return getWindowType(context) == AdaptiveWindowType.medium;
-}
 
 /// Returns a boolean value whether the display has a hinge that splits the
 /// screen into two, left and right sub-screens. Horizontal splits (top and

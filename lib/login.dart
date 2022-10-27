@@ -2,13 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:math';
-
 import 'package:betterchips/data/gallery_options.dart';
 import 'package:betterchips/layout/adaptive.dart';
 import 'package:betterchips/layout/image_placeholder.dart';
 import 'package:betterchips/layout/letter_spacing.dart';
-import 'package:betterchips/layout/text_scale.dart';
 import 'package:betterchips/setup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,13 +19,6 @@ import 'constants.dart';
 FirebaseAuth auth = FirebaseAuth.instanceFor(app: Firebase.app());
 
 const _horizontalPadding = 24.0;
-
-double desktopLoginScreenMainAreaWidth({required BuildContext context}) {
-  return min(
-    360 * reducedTextScale(context),
-    MediaQuery.of(context).size.width - 2 * _horizontalPadding,
-  );
-}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
