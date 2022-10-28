@@ -186,10 +186,14 @@ class PlayerCard extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+
+            /// NameRow
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
+                /// NameFlex
                 Flexible(
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(
@@ -203,6 +207,8 @@ class PlayerCard extends StatelessWidget {
                     ),
                   ),
                 ),
+
+                /// GameMasterContainer
                 Container(
                   decoration: isGameMaster
                       ? BoxDecoration(
@@ -219,9 +225,12 @@ class PlayerCard extends StatelessWidget {
                 )
               ],
             ),
+
             Padding(
                 padding:
                     EdgeInsets.all((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 5)),
+
+            /// RoleContainer
             Container(
               decoration:
                   BoxDecoration(color: getColor(json['role']), borderRadius: BorderRadius.circular(4.0)),
@@ -239,11 +248,11 @@ class PlayerCard extends StatelessWidget {
               ),
             ),
 
-            /// Role
             Padding(
                 padding: EdgeInsets.all(
                     (Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 5 * 2)),
 
+            /// StatusContainer
             Container(
               decoration:
                   BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(4.0)),
@@ -262,6 +271,8 @@ class PlayerCard extends StatelessWidget {
             Padding(
                 padding:
                     EdgeInsets.all((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 4)),
+
+            /// MoneyRow
             Row(
               children: [
                 const Spacer(flex: 1),
