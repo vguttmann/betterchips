@@ -412,7 +412,7 @@ class BetterchipsLogo extends StatelessWidget {
       child: Column(
         children: [
           const FadeInImagePlaceholder(
-            /// @TODO: Add a new image and replace the placeholder"!
+            /// @TODO: Add a new image and replace the placeholder!
             image: AssetImage('packages/shrine_images/diamond.png'),
             placeholder: SizedBox(
               width: 34,
