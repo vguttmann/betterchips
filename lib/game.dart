@@ -137,7 +137,6 @@ class _GameScreenState extends State<GameScreen> {
 }
 
 class PlayerCard extends StatelessWidget {
-  /// @TODO: Add proper Markup for small big and dealer
 
   const PlayerCard({super.key, required this.json, required this.name});
 
@@ -158,6 +157,23 @@ class PlayerCard extends StatelessWidget {
       return 'Dealer';
     }
     return 'Player';
+  }
+  Color? getColor(dynamic role){
+    if(role == 'bigBlind'){
+      return Colors.orange;
+    } else if(role == 'smallBlind'){
+      return Colors.purple;
+    } else if(role == 'dealer'){
+      return Colors.grey[200];
+    }
+    return Colors.indigo[900];
+  }
+
+  TextStyle? getPlayerTextStyle(dynamic role, BuildContext context){
+    if(role == 'dealer'){
+      return Theme.of(context).textTheme.headline5?.copyWith(color: Colors.grey[900]);
+    }
+    return Theme.of(context).textTheme.headline5;
   }
 
   @override
@@ -208,7 +224,7 @@ class PlayerCard extends StatelessWidget {
                     EdgeInsets.all((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 5)),
             Container(
               decoration:
-                  BoxDecoration(color: Colors.purple, borderRadius: BorderRadius.circular(4.0)),
+                  BoxDecoration(color: getColor(json['role']), borderRadius: BorderRadius.circular(4.0)),
               child: Padding(
                 padding: EdgeInsets.fromLTRB(
                     ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 4),
@@ -218,7 +234,7 @@ class PlayerCard extends StatelessWidget {
                 child: Text(
                   // role,
                   role,
-                  style: Theme.of(context).textTheme.headline5,
+                  style: getPlayerTextStyle(json['role'], context),
                 ),
               ),
             ),
@@ -263,7 +279,7 @@ class PlayerCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 Text(
-                  '2000',
+                  json['bet'].toString(),
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 const Spacer(flex: 1),
