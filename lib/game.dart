@@ -1,3 +1,4 @@
+import 'package:betterchips/layout/firebase_item_builder.dart';
 import 'package:betterchips/setup.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -27,6 +28,11 @@ class _GameScreenState extends State<GameScreen> {
   Query getPlayers() {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
     return FirebaseDatabase.instance.ref().child('/${args.gameID}/players');
+  }
+
+  Query getPot() {
+    final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+    return FirebaseDatabase.instance.ref().child('/${args.gameID}/data');
   }
 
   /// @TODO: Add rotating of roles!
@@ -64,10 +70,15 @@ class _GameScreenState extends State<GameScreen> {
                 'Pot: ',
                 style: Theme.of(context).textTheme.headline5,
               ),
-              Text(
-                pot.toString(),
-                style: Theme.of(context).textTheme.headline5,
-              ),
+              FirebaseItemBuilder(query: getPot(), itemBuilder: (context, snapshot) {
+                dynamic json = snapshot.value;
+                print(json.toString());
+                return const Text('json.toString()');
+              },),
+              // Text(
+              //   pot.toString(),
+              //   style: Theme.of(context).textTheme.headline5,
+              // ),
             ],
           )
         ]),
