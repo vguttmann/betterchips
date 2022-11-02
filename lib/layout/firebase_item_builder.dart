@@ -7,22 +7,18 @@ import 'dart:collection';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart' show DataSnapshot, DatabaseEvent, Query;
 import 'package:firebase_database/ui/utils/stream_subscriber_mixin.dart';
-// Copyright 2019 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
 
 import 'package:flutter/widgets.dart';
 
 typedef FirebaseAnimatedListItemBuilder = Widget Function(
     BuildContext context,
     DataSnapshot snapshot,
-    int index,
     );
 
 /// An AnimatedList widget that is bound to a query
-class FirebaseAnimatedList extends StatefulWidget {
-  /// Creates a scrolling container that animates items when they are inserted or removed.
-  const FirebaseAnimatedList({
+class FirebaseItemBuilder extends StatefulWidget {
+  /// Creates a container that automatically updates its child.
+  const FirebaseItemBuilder({
     super.key,
     required this.query,
     required this.itemBuilder,
@@ -48,18 +44,17 @@ class FirebaseAnimatedList extends StatefulWidget {
   final FirebaseAnimatedListItemBuilder itemBuilder;
 
   @override
-  FirebaseAnimatedListState createState() => FirebaseAnimatedListState();
+  FirebaseItemBuilderState createState() => FirebaseItemBuilderState();
 }
 
-class FirebaseAnimatedListState extends State<FirebaseAnimatedList> {
-  final GlobalKey<AnimatedListState> _animatedListKey =
-  GlobalKey<AnimatedListState>();
+class FirebaseItemBuilderState extends State<FirebaseItemBuilder> {
   late List<DataSnapshot> _model;
   bool _loaded = false;
 
   @override
   void didChangeDependencies() {
 
+    /// There is one snapshot for each child of the query.
       _model = FirebaseList(
         query: widget.query,
         onChildChanged: _onChildChanged,
@@ -91,22 +86,20 @@ class FirebaseAnimatedListState extends State<FirebaseAnimatedList> {
 
   Widget _buildItem(
       BuildContext context,
-      int index,
-      Animation<double> animation,
       ) {
-    return widget.itemBuilder(context, _model[index], index);
+    /// @TODO: Fix the null error here!
+    /// Also, add back the onChildAdded callbacks!
+    /// Maybe also the other ones. They're dead weight but oh well
+    print(_model[0].value.toString());
+    return widget.itemBuilder(context, _model[0]);
   }
 
   @override
   Widget build(BuildContext context) {
     if (!_loaded) {
-      return widget.defaultChild ?? Container();
+      return widget.defaultChild ?? const Text('');
     }
-    return AnimatedList(
-      key: _animatedListKey,
-      itemBuilder: _buildItem,
-      initialItemCount: _model.length,
-    );
+    return _buildItem.call(context);
   }
 }
 
@@ -122,7 +115,6 @@ class FirebaseList extends ListBase<DataSnapshot>
         StreamSubscriberMixin<DatabaseEvent> {
   FirebaseList({
     required this.query,
-
     this.onChildChanged,
     this.onValue,
     this.onError,
