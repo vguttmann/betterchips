@@ -70,15 +70,19 @@ class _GameScreenState extends State<GameScreen> {
                 'Pot: ',
                 style: Theme.of(context).textTheme.headline5,
               ),
-              FirebaseItemBuilder(query: getPot(), itemBuilder: (context, snapshot) {
-                dynamic json = snapshot.value;
-                print(json.toString());
-                return const Text('json.toString()');
-              },),
-              // Text(
-              //   pot.toString(),
-              //   style: Theme.of(context).textTheme.headline5,
-              // ),
+
+              FirebaseItemBuilder(
+                elementIndex: 4,
+                query: getPot(),
+                itemBuilder: (context, snapshot) {
+                  dynamic json = snapshot.value ?? '';
+                  return Text(
+                    json.toString(),
+                    style: Theme.of(context).textTheme.headline5,
+                  );
+                },
+              ),
+
             ],
           )
         ]),
@@ -148,7 +152,6 @@ class _GameScreenState extends State<GameScreen> {
 }
 
 class PlayerCard extends StatelessWidget {
-
   const PlayerCard({super.key, required this.json, required this.name});
 
   final dynamic json;
@@ -161,27 +164,27 @@ class PlayerCard extends StatelessWidget {
   String getRole(dynamic role) {
     if (role == 'smallBlind') {
       return 'Small Blind';
-    }
-    else if (role == 'bigBlind') {
+    } else if (role == 'bigBlind') {
       return 'Big Blind';
     } else if (role == 'dealer') {
       return 'Dealer';
     }
     return 'Player';
   }
-  Color? getColor(dynamic role){
-    if(role == 'bigBlind'){
+
+  Color? getColor(dynamic role) {
+    if (role == 'bigBlind') {
       return Colors.orange;
-    } else if(role == 'smallBlind'){
+    } else if (role == 'smallBlind') {
       return Colors.purple;
-    } else if(role == 'dealer'){
+    } else if (role == 'dealer') {
       return Colors.grey[200];
     }
     return Colors.indigo[900];
   }
 
-  TextStyle? getPlayerTextStyle(dynamic role, BuildContext context){
-    if(role == 'dealer'){
+  TextStyle? getPlayerTextStyle(dynamic role, BuildContext context) {
+    if (role == 'dealer') {
       return Theme.of(context).textTheme.headline5?.copyWith(color: Colors.grey[900]);
     }
     return Theme.of(context).textTheme.headline5;
@@ -197,13 +200,11 @@ class PlayerCard extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-
             /// NameRow
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 /// NameFlex
                 Flexible(
                   child: Padding(
@@ -243,8 +244,8 @@ class PlayerCard extends StatelessWidget {
 
             /// RoleContainer
             Container(
-              decoration:
-                  BoxDecoration(color: getColor(json['role']), borderRadius: BorderRadius.circular(4.0)),
+              decoration: BoxDecoration(
+                  color: getColor(json['role']), borderRadius: BorderRadius.circular(4.0)),
               child: Padding(
                 padding: EdgeInsets.fromLTRB(
                     ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 4),
