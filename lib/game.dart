@@ -172,7 +172,18 @@ class PlayerCard extends StatelessWidget {
     return 'Player';
   }
 
-  Color? getColor(dynamic role) {
+  String getStatus(dynamic role) {
+    if (role == 'in') {
+      return 'In Game';
+    } else if (role == 'allIn') {
+      return 'All In';
+    } else if (role == 'folded') {
+      return 'Folded';
+    }
+    return 'Out';
+  }
+
+  Color? getRoleColor(dynamic role) {
     if (role == 'bigBlind') {
       return Colors.orange;
     } else if (role == 'smallBlind') {
@@ -181,6 +192,17 @@ class PlayerCard extends StatelessWidget {
       return Colors.grey[200];
     }
     return Colors.indigo[900];
+  }
+
+  Color? getStatusColor(dynamic status) {
+    if (status == 'in') {
+      return Colors.green;
+    } else if (status == 'allIn') {
+      return Colors.red;
+    } else if (status == 'folded') {
+      return Colors.grey;
+    }
+    return Colors.grey[900];
   }
 
   TextStyle? getPlayerTextStyle(dynamic role, BuildContext context) {
@@ -245,7 +267,7 @@ class PlayerCard extends StatelessWidget {
             /// RoleContainer
             Container(
               decoration: BoxDecoration(
-                  color: getColor(json['role']), borderRadius: BorderRadius.circular(4.0)),
+                  color: getRoleColor(json['role']), borderRadius: BorderRadius.circular(4.0)),
               child: Padding(
                 padding: EdgeInsets.fromLTRB(
                     ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 4),
@@ -266,8 +288,8 @@ class PlayerCard extends StatelessWidget {
 
             /// StatusContainer
             Container(
-              decoration:
-                  BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(4.0)),
+              decoration: BoxDecoration(
+                  color: getStatusColor(json['status']), borderRadius: BorderRadius.circular(4.0)),
               child: Padding(
                 padding: EdgeInsets.fromLTRB(
                     ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 4),
@@ -275,7 +297,7 @@ class PlayerCard extends StatelessWidget {
                     ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 4),
                     ((Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 12)),
                 child: Text(
-                  'Status',
+                  getStatus(json['status']),
                   style: Theme.of(context).textTheme.headline5,
                 ),
               ),
