@@ -36,6 +36,8 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   /// @TODO: Add rotating of roles!
+  /// Triggered by GM in the setState of round completion
+
   /// @TODO: Add inability of dealer to do stuff!
   /// @TODO: Add minimum player count check! (min 3 players)
   /// @TODO: Add the ability to remove players from the round!
@@ -53,6 +55,8 @@ class _GameScreenState extends State<GameScreen> {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
+              /// @TODO: Add logic to get current call!
+              /// Either extract it from player data, or have players update it when raising
               Text(
                 'Call: ',
                 style: Theme.of(context).textTheme.headline5,
@@ -70,7 +74,6 @@ class _GameScreenState extends State<GameScreen> {
                 'Pot: ',
                 style: Theme.of(context).textTheme.headline5,
               ),
-
               FirebaseItemBuilder(
                 elementIndex: 4,
                 query: getPot(),
@@ -82,7 +85,6 @@ class _GameScreenState extends State<GameScreen> {
                   );
                 },
               ),
-
             ],
           )
         ]),
@@ -117,11 +119,17 @@ class _GameScreenState extends State<GameScreen> {
           ),
 
           /// @TODO: Add putting current bet here!
+
           /// @TODO: Add match, fold, raise, reraise and knock buttons depending on context!
+          /// @TODO: Lay out possible states, and implement that state machine here (DEA?)
+
           /// @TODO: Style buttons and slider!
           /// @TODO: Add code to remove money from player and add to bet!
           /// @TODO: Add splitting the pot with all-in!
+
           /// @TODO: add "all-in" code!
+          /// Needs to keep in mind that all-in != all in for everyone always, but that it also
+          /// always keeps up with everyone else!
 
           currentBet == 0
               ? TextButton(onPressed: () {}, child: const Text('Fold'))
