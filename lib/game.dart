@@ -52,7 +52,7 @@ class _GameScreenState extends State<GameScreen> {
     currentMoney = args.currentMoney;
     minBet = args.minBet;
 
-    playerStreamBuilder(BuildContext context, AsyncSnapshot snapshot) {
+    StreamBuilder<DatabaseEvent> playerStreamBuilder(BuildContext context, AsyncSnapshot snapshot) {
       List<Widget> getWidgets(BuildContext context, Map<String, dynamic> players) {
         List<Widget> widgets = [];
 
