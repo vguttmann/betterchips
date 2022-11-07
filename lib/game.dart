@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 
 enum Role { player, smallBlind, bigBlind, dealer }
 
+enum Status { inGame, folded, allIn, out }
+
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
 
@@ -225,13 +227,15 @@ class PlayerCard extends StatelessWidget {
     return 'Player';
   }
 
-  String getStatus(dynamic role) {
-    if (role == 'in') {
+  String getStatus(dynamic status) {
+    if (status == Status.inGame) {
       return 'In Game';
-    } else if (role == 'allIn') {
+    } else if (status == Status.allIn) {
       return 'All In';
-    } else if (role == 'folded') {
+    } else if (status == Status.folded) {
       return 'Folded';
+    } else if (status == Status.out) {
+      return 'Out';
     }
     return 'Out';
   }
@@ -248,12 +252,14 @@ class PlayerCard extends StatelessWidget {
   }
 
   Color? getStatusColor(dynamic status) {
-    if (status == 'in') {
+    if (status == Status.inGame) {
       return Colors.green;
-    } else if (status == 'allIn') {
+    } else if (status == Status.allIn) {
       return Colors.red;
-    } else if (status == 'folded') {
+    } else if (status == Status.folded) {
       return Colors.grey;
+    } else if (status == Status.out) {
+      return Colors.grey[900];
     }
     return Colors.grey[900];
   }
