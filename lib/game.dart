@@ -217,11 +217,11 @@ class PlayerCard extends StatelessWidget {
   }
 
   String getRole(dynamic role) {
-    if (role == 'smallBlind') {
+    if (role == Role.smallBlind) {
       return 'Small Blind';
-    } else if (role == 'bigBlind') {
+    } else if (role == Role.bigBlind) {
       return 'Big Blind';
-    } else if (role == 'dealer') {
+    } else if (role == Role.dealer) {
       return 'Dealer';
     }
     return 'Player';
@@ -241,12 +241,14 @@ class PlayerCard extends StatelessWidget {
   }
 
   Color? getRoleColor(dynamic role) {
-    if (role == 'bigBlind') {
+    if (role == Role.bigBlind) {
       return Colors.orange;
-    } else if (role == 'smallBlind') {
+    } else if (role == Role.smallBlind) {
       return Colors.purple;
-    } else if (role == 'dealer') {
+    } else if (role == Role.dealer) {
       return Colors.grey[200];
+    } else if (role == Role.player) {
+      return Colors.indigo[900];
     }
     return Colors.indigo[900];
   }
@@ -265,7 +267,7 @@ class PlayerCard extends StatelessWidget {
   }
 
   TextStyle? getPlayerTextStyle(dynamic role, BuildContext context) {
-    if (role == 'dealer') {
+    if (role == Role.dealer) {
       return Theme.of(context).textTheme.headline5?.copyWith(color: Colors.grey[900]);
     }
     return Theme.of(context).textTheme.headline5;
