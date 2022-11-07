@@ -52,7 +52,7 @@ class _GameScreenState extends State<GameScreen> {
     currentMoney = args.currentMoney;
     minBet = args.minBet;
 
-    StreamBuilder<DatabaseEvent> playerStreamBuilder(BuildContext context, AsyncSnapshot snapshot) {
+    StreamBuilder<DatabaseEvent> bottomNavigationBuilder(BuildContext context, AsyncSnapshot snapshot) {
       List<Widget> getWidgets(BuildContext context, Map<String, dynamic> players) {
         List<Widget> widgets = [];
 
@@ -182,7 +182,7 @@ class _GameScreenState extends State<GameScreen> {
         bottomNavigationBar: StreamBuilder(
             stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/currentCall').onValue,
             builder: (context, snapshot) {
-              return playerStreamBuilder(context, snapshot);
+              return bottomNavigationBuilder(context, snapshot);
             }));
   }
 
