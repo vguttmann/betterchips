@@ -172,10 +172,18 @@ class _GameScreenState extends State<GameScreen> {
                   'Call: ',
                   style: Theme.of(context).textTheme.headline5,
                 ),
-                Text(
-                  call.toString(),
-                  style: Theme.of(context).textTheme.headline5,
-                )
+
+                StreamBuilder(
+                  stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/call').onValue,
+                  builder: (context, snapshot) {
+                    DatabaseEvent call = snapshot.data as DatabaseEvent;
+                    return Text(
+                      call.toString(),
+                      style: Theme.of(context).textTheme.headline5,
+                    );
+                  },
+                ),
+
               ],
             ),
             Row(
@@ -188,9 +196,9 @@ class _GameScreenState extends State<GameScreen> {
                 StreamBuilder(
                   stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/pot').onValue,
                   builder: (context, snapshot) {
-                    DatabaseEvent json = snapshot.data as DatabaseEvent;
+                    DatabaseEvent pot = snapshot.data as DatabaseEvent;
                     return Text(
-                      json.toString(),
+                      pot.toString(),
                       style: Theme.of(context).textTheme.headline5,
                     );
                   },
