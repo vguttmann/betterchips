@@ -15,7 +15,7 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   late int minBet;
   late int currentMoney;
-  double currentBet = 0;
+  int currentBet = 0;
   int call = 0;
   int pot = 0;
 
@@ -100,14 +100,14 @@ class _GameScreenState extends State<GameScreen> {
         children: [
           const Divider(),
           Slider(
-            value: currentBet,
+            value: currentBet.toDouble(),
             min: 0,
             max: currentMoney.toDouble(),
             divisions: (currentMoney / minBet).round(),
             label: currentBet.round().toString(),
             onChanged: (value) {
               setState(() {
-                currentBet = value;
+                currentBet = value.toInt();
               });
             },
           ),
