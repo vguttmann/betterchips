@@ -82,8 +82,8 @@ class _GameScreenState extends State<GameScreen> {
             value: currentRaise.toDouble(),
             min: minPlayerBet.toDouble(),
             max: currentMoney.toDouble(),
-            divisions: (currentMoney / minBet).round(),
-            label: currentRaise.round().toString(),
+            divisions: ((currentMoney - minPlayerBet) / minBet).round(),
+            label: currentRaise.toString(),
             onChanged: (value) {
               setState(() {
                 currentRaise = value.toInt();
