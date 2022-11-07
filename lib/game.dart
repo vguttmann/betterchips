@@ -40,7 +40,6 @@ class _GameScreenState extends State<GameScreen> {
   /// @TODO: Add rotating of roles!
   /// Triggered by GM in the setState of round completion
 
-  /// @TODO: Add inability of dealer to do stuff!
   /// @TODO: Add minimum player count check! (min 3 players)
   /// @TODO: Add the ability to remove players from the round!
 
@@ -67,13 +66,13 @@ class _GameScreenState extends State<GameScreen> {
           /// Add bet control slider
           int minPlayerBet = 0;
 
-          if(players[args.name]['role'] == Role.smallBlind && players[args.name]['bet'] == 0){
+          if (players[args.name]['role'] == Role.smallBlind && players[args.name]['bet'] == 0) {
             minPlayerBet = minBet;
           }
 
-          if(players[args.name]['role'] == Role.bigBlind && players[args.name]['bet'] == 0){
+          if (players[args.name]['role'] == Role.bigBlind && players[args.name]['bet'] == 0) {
             minPlayerBet = minBet;
-            if(data['bigBetsDouble'] as bool){
+            if (data['bigBetsDouble'] as bool) {
               minPlayerBet += minBet;
             }
           }
@@ -97,7 +96,6 @@ class _GameScreenState extends State<GameScreen> {
             endIndent: (Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 3,
           ));
 
-
           /// @TODO: This is horrible! PLEASE REWRITE!!!
           if (currentRaise != 0) {
             widgets.add(TextButton(onPressed: () {}, child: const Text('Bet')));
@@ -105,10 +103,9 @@ class _GameScreenState extends State<GameScreen> {
             /// Set the bet for the smallBlind
             currentRaise = minBet;
             widgets.add(TextButton(onPressed: () {}, child: const Text('Bet')));
-
-
           } else if (players[args.name]['role'] != Role.bigBlind && currentBet == 0) {
             currentRaise = minBet;
+
             /// Set the bet for the bigBlind
             /// If the bigBlind is supposed to bet double, then do that!
             if (data['bigBetsDouble'] as bool) {
@@ -166,13 +163,10 @@ class _GameScreenState extends State<GameScreen> {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                /// @TODO: Add logic to get current call!
-                /// Either extract it from player data, or have players update it when raising
                 Text(
                   'Call: ',
                   style: Theme.of(context).textTheme.headline5,
                 ),
-
                 StreamBuilder(
                   stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/call').onValue,
                   builder: (context, snapshot) {
@@ -183,7 +177,6 @@ class _GameScreenState extends State<GameScreen> {
                     );
                   },
                 ),
-
               ],
             ),
             Row(
