@@ -1,4 +1,3 @@
-import 'package:betterchips/layout/firebase_item_builder.dart';
 import 'package:betterchips/setup.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -74,11 +73,10 @@ class _GameScreenState extends State<GameScreen> {
                 'Pot: ',
                 style: Theme.of(context).textTheme.headline5,
               ),
-              FirebaseItemBuilder(
-                elementIndex: 4,
-                query: getPot(),
-                itemBuilder: (context, snapshot) {
-                  dynamic json = snapshot.value ?? '';
+              StreamBuilder(
+                stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/pot').onValue,
+                builder: (context, snapshot) {
+                  DatabaseEvent json = snapshot.data as DatabaseEvent;
                   return Text(
                     json.toString(),
                     style: Theme.of(context).textTheme.headline5,
