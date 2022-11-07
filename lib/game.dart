@@ -15,6 +15,7 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   late int minBet;
   late int currentMoney;
+  int currentRaise = 0;
   int currentBet = 0;
   int call = 0;
   int pot = 0;
@@ -44,97 +45,143 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+    final DatabaseReference nameRef =
+        FirebaseDatabase.instance.ref('/${args.gameID}/players/${args.name}');
     currentMoney = args.currentMoney;
     minBet = args.minBet;
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.indigo[900],
-        title: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              /// @TODO: Add logic to get current call!
-              /// Either extract it from player data, or have players update it when raising
-              Text(
-                'Call: ',
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              Text(
-                call.toString(),
-                style: Theme.of(context).textTheme.headline5,
-              )
-            ],
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Pot: ',
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              StreamBuilder(
-                stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/pot').onValue,
-                builder: (context, snapshot) {
-                  DatabaseEvent json = snapshot.data as DatabaseEvent;
-                  return Text(
-                    json.toString(),
-                    style: Theme.of(context).textTheme.headline5,
-                  );
-                },
-              ),
-            ],
-          )
-        ]),
-      ),
-      body: FirebaseAnimatedList(
-        query: getPlayers(),
-        itemBuilder: (context, snapshot, animation, index) {
-          dynamic json = snapshot.value;
-          return PlayerCard(json: json, name: snapshot.key ?? 'Error');
-        },
-      ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Divider(),
-          Slider(
-            value: currentBet.toDouble(),
+    playerStreamBuilder(BuildContext context, AsyncSnapshot snapshot) {
+      List<Widget> getWidgets(BuildContext context, Map<String, dynamic> players) {
+        List<Widget> widgets = [];
+
+        widgets.add(const Divider());
+
+        if (players[args.name]['role'] != Role.dealer) {
+          /// @TODO: Add round controls here!
+          widgets.add(Container());
+        } else {
+          widgets.add(Slider(
+            value: currentRaise.toDouble(),
             min: 0,
             max: currentMoney.toDouble(),
             divisions: (currentMoney / minBet).round(),
-            label: currentBet.round().toString(),
+            label: currentRaise.round().toString(),
             onChanged: (value) {
               setState(() {
-                currentBet = value.toInt();
+                currentRaise = value.toInt();
               });
             },
-          ),
-          Divider(
+          ));
+          widgets.add(Divider(
             indent: (Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 3,
             endIndent: (Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 3,
-          ),
+          ));
+          if (currentRaise != 0) {
+            widgets.add(TextButton(onPressed: () {}, child: const Text('Bet')));
+          } else if (players[args.name]['role'] != Role.bigBlind) {
+          } else {
+            widgets.add(TextButton(
+              child: const Text('Fold'),
+              onPressed: () {
+                setState(
+                  () async {
+                    await nameRef.update({'status': Status.out});
+                  },
+                );
+              },
+            ));
+          }
+        }
 
-          /// @TODO: Add putting current bet here!
+        // [
+        //
+        //   /// @TODO: Add putting current bet here!
+        //
+        //   /// @TODO: Add match, fold, raise, reraise and knock buttons depending on context!
+        //   /// @TODO: Lay out possible states, and implement that state machine here (DEA?)
+        //
+        //   /// @TODO: Style buttons and slider!
+        //   /// @TODO: Add code to remove money from player and add to bet!
+        //   /// @TODO: Add splitting the pot with all-in!
+        //   ///
+        //
+        //   /// @TODO: add "all-in" code!
+        //   /// Needs to keep in mind that all-in != all in for everyone always, but that it also
+        //   /// always keeps up with everyone else!
+        //
+        //   ///currentCall StreamBuilder
+        //
+        // ],
 
-          /// @TODO: Add match, fold, raise, reraise and knock buttons depending on context!
-          /// @TODO: Lay out possible states, and implement that state machine here (DEA?)
+        return widgets;
+      }
 
-          /// @TODO: Style buttons and slider!
-          /// @TODO: Add code to remove money from player and add to bet!
-          /// @TODO: Add splitting the pot with all-in!
+      return StreamBuilder(
+        stream: FirebaseDatabase.instance.ref('/${args.gameID}/players').onValue,
+        builder: (context, snapshot) {
+          Map<String, dynamic> players =
+              (snapshot.data as DataSnapshot).value as Map<String, dynamic>;
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: getWidgets(context, players),
+          );
+        },
+      );
+    }
 
-          /// @TODO: add "all-in" code!
-          /// Needs to keep in mind that all-in != all in for everyone always, but that it also
-          /// always keeps up with everyone else!
-
-          currentBet == 0
-              ? TextButton(onPressed: () {}, child: const Text('Fold'))
-              : TextButton(onPressed: () {}, child: const Text('Bet'))
-        ],
-      ),
-    );
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.indigo[900],
+          title: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                /// @TODO: Add logic to get current call!
+                /// Either extract it from player data, or have players update it when raising
+                Text(
+                  'Call: ',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                Text(
+                  call.toString(),
+                  style: Theme.of(context).textTheme.headline5,
+                )
+              ],
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Pot: ',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                StreamBuilder(
+                  stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/pot').onValue,
+                  builder: (context, snapshot) {
+                    DatabaseEvent json = snapshot.data as DatabaseEvent;
+                    return Text(
+                      json.toString(),
+                      style: Theme.of(context).textTheme.headline5,
+                    );
+                  },
+                ),
+              ],
+            )
+          ]),
+        ),
+        body: FirebaseAnimatedList(
+          query: getPlayers(),
+          itemBuilder: (context, snapshot, animation, index) {
+            dynamic json = snapshot.value;
+            return PlayerCard(json: json, name: snapshot.key ?? 'Error');
+          },
+        ),
+        bottomNavigationBar: StreamBuilder(
+            stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/currentCall').onValue,
+            builder: (context, snapshot) {
+              return playerStreamBuilder(context, snapshot);
+            }));
   }
 
   Future<void> getCurrentMoney() async {
