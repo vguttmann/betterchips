@@ -65,9 +65,22 @@ class _GameScreenState extends State<GameScreen> {
           widgets.add(Container());
         } else {
           /// Add bet control slider
+          int minPlayerBet = 0;
+
+          if(players[args.name]['role'] == Role.smallBlind && players[args.name]['bet'] == 0){
+            minPlayerBet = minBet;
+          }
+
+          if(players[args.name]['role'] == Role.bigBlind && players[args.name]['bet'] == 0){
+            minPlayerBet = minBet;
+            if(data['bigBetsDouble'] as bool){
+              minPlayerBet += minBet;
+            }
+          }
+
           widgets.add(Slider(
             value: currentRaise.toDouble(),
-            min: 0,
+            min: minPlayerBet.toDouble(),
             max: currentMoney.toDouble(),
             divisions: (currentMoney / minBet).round(),
             label: currentRaise.round().toString(),
