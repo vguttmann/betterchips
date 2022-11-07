@@ -50,7 +50,11 @@ class _GameScreenState extends State<GameScreen> {
     currentMoney = args.currentMoney;
     minBet = args.minBet;
 
-    StreamBuilder<DatabaseEvent> bottomNavigationBuilder(BuildContext context, AsyncSnapshot snapshot) {
+    Widget bottomNavigationBuilder(BuildContext context, AsyncSnapshot rootSnapshot) {
+      Map<String, dynamic> players =
+          (rootSnapshot.data['players'] as DataSnapshot).value as Map<String, dynamic>;
+      Map<String, dynamic> data =
+          (rootSnapshot.data['data'] as DataSnapshot).value as Map<String, dynamic>;
       List<Widget> getWidgets(BuildContext context, Map<String, dynamic> players) {
         List<Widget> widgets = [];
 
@@ -60,6 +64,7 @@ class _GameScreenState extends State<GameScreen> {
           /// @TODO: Add round controls here!
           widgets.add(Container());
         } else {
+          /// Add bet control slider
           widgets.add(Slider(
             value: currentRaise.toDouble(),
             min: 0,
@@ -72,13 +77,31 @@ class _GameScreenState extends State<GameScreen> {
               });
             },
           ));
+
+          /// Add Divider to Buttons
           widgets.add(Divider(
             indent: (Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 3,
             endIndent: (Theme.of(context).textTheme.headline3?.fontSize ?? 8.0) / 3,
           ));
+
+
+          /// @TODO: This is horrible! PLEASE REWRITE!!!
           if (currentRaise != 0) {
             widgets.add(TextButton(onPressed: () {}, child: const Text('Bet')));
-          } else if (players[args.name]['role'] != Role.bigBlind) {
+          } else if (players[args.name]['role'] != Role.smallBlind && currentBet == 0) {
+            /// Set the bet for the smallBlind
+            currentRaise = minBet;
+            widgets.add(TextButton(onPressed: () {}, child: const Text('Bet')));
+
+
+          } else if (players[args.name]['role'] != Role.bigBlind && currentBet == 0) {
+            currentRaise = minBet;
+            /// Set the bet for the bigBlind
+            /// If the bigBlind is supposed to bet double, then do that!
+            if (data['bigBetsDouble'] as bool) {
+              currentRaise += minBet;
+            }
+            widgets.add(TextButton(onPressed: () {}, child: const Text('Bet')));
           } else {
             widgets.add(TextButton(
               child: const Text('Fold'),
@@ -116,17 +139,10 @@ class _GameScreenState extends State<GameScreen> {
         return widgets;
       }
 
-      return StreamBuilder(
-        stream: FirebaseDatabase.instance.ref('/${args.gameID}/players').onValue,
-        builder: (context, snapshot) {
-          Map<String, dynamic> players =
-              (snapshot.data as DataSnapshot).value as Map<String, dynamic>;
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: getWidgets(context, players),
-          );
-        },
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: getWidgets(context, players),
       );
     }
 
@@ -178,7 +194,7 @@ class _GameScreenState extends State<GameScreen> {
           },
         ),
         bottomNavigationBar: StreamBuilder(
-            stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/currentCall').onValue,
+            stream: FirebaseDatabase.instance.ref('/${args.gameID}/').onValue,
             builder: (context, snapshot) {
               return bottomNavigationBuilder(context, snapshot);
             }));
