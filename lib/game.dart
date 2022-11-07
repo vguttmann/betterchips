@@ -47,8 +47,6 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
-    final DatabaseReference nameRef =
-        FirebaseDatabase.instance.ref('/${args.gameID}/players/${args.name}');
     currentMoney = args.currentMoney;
     minBet = args.minBet;
 
@@ -87,7 +85,7 @@ class _GameScreenState extends State<GameScreen> {
               onPressed: () {
                 setState(
                   () async {
-                    await nameRef.update({'status': Status.out});
+                    await players[args.name].update({'status': Status.out});
                   },
                 );
               },
