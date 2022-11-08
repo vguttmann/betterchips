@@ -159,46 +159,49 @@ class _GameScreenState extends State<GameScreen> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.indigo[900],
-          title: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Call: ',
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-                StreamBuilder(
-                  stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/call').onValue,
-                  builder: (context, snapshot) {
-                    DatabaseEvent call = snapshot.data as DatabaseEvent;
-                    return Text(
-                      call.toString(),
-                      style: Theme.of(context).textTheme.headline5,
-                    );
-                  },
-                ),
-              ],
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Pot: ',
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-                StreamBuilder(
-                  stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/pot').onValue,
-                  builder: (context, snapshot) {
-                    DatabaseEvent pot = snapshot.data as DatabaseEvent;
-                    return Text(
-                      pot.toString(),
-                      style: Theme.of(context).textTheme.headline5,
-                    );
-                  },
-                ),
-              ],
-            )
-          ]),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Call: ',
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                  StreamBuilder(
+                    stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/call').onValue,
+                    builder: (context, snapshot) {
+                      DatabaseEvent call = snapshot.data as DatabaseEvent;
+                      return Text(
+                        call.toString(),
+                        style: Theme.of(context).textTheme.headline5,
+                      );
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Pot: ',
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                  StreamBuilder(
+                    stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/pot').onValue,
+                    builder: (context, snapshot) {
+                      DatabaseEvent pot = snapshot.data as DatabaseEvent;
+                      return Text(
+                        pot.toString(),
+                        style: Theme.of(context).textTheme.headline5,
+                      );
+                    },
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
         body: FirebaseAnimatedList(
           query: getPlayers(),
