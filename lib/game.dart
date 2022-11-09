@@ -3,9 +3,21 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 
-enum Role { player, smallBlind, bigBlind, dealer }
+class Role {
+  static const String player = 'player';
+  static const String smallBlind = 'smallBlind';
+  static const String bigBlind = 'bigBlind';
+  static const String dealer = 'dealer';
+}
 
-enum Status { inGame, folded, allIn, out }
+class Status {
+  static const String inGame = 'inGame';
+  static const String folded = 'folded';
+  static const String allIn = 'allIn';
+  static const String out = 'out';
+  static const String knock = 'knock';
+}
+// enum Status { inGame, folded, allIn, out }
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
