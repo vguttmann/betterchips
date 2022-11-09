@@ -157,74 +157,73 @@ class _GameScreenState extends State<GameScreen> {
     }
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.indigo[900],
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Call: ',
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  StreamBuilder(
-                    stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/call').onValue,
-                    builder: (context, snapshot) {
-                      DatabaseEvent call = snapshot.data as DatabaseEvent;
-                      return Text(
-                        call.toString(),
-                        style: Theme.of(context).textTheme.headline5,
-                      );
-                    },
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Pot: ',
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  StreamBuilder(
-                    stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/pot').onValue,
-                    builder: (context, snapshot) {
-                      DatabaseEvent pot = snapshot.data as DatabaseEvent;
-                      return Text(
-                        pot.toString(),
-                        style: Theme.of(context).textTheme.headline5,
-                      );
-                    },
-                  ),
-                ],
-              )
-            ],
-          ),
+      appBar: AppBar(
+        backgroundColor: Colors.indigo[900],
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Call: ',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                StreamBuilder(
+                  stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/call').onValue,
+                  builder: (context, snapshot) {
+                    dynamic call = (snapshot.data as DatabaseEvent).snapshot.value;
+                    return Text(
+                      call.toString(),
+                      style: Theme.of(context).textTheme.headline5,
+                    );
+                  },
+                ),
+              ],
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Pot: ',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                StreamBuilder(
+                  stream: FirebaseDatabase.instance.ref('/${args.gameID}/data/pot').onValue,
+                  builder: (context, snapshot) {
+                    dynamic pot = (snapshot.data as DatabaseEvent).snapshot.value;
+                    return Text(
+                      pot.toString(),
+                      style: Theme.of(context).textTheme.headline5,
+                    );
+                  },
+                ),
+              ],
+            )
+          ],
         ),
-        body: FirebaseAnimatedList(
-          query: getPlayers(),
-          itemBuilder: (context, snapshot, animation, index) {
-            dynamic json = snapshot.value;
-            return PlayerCard(json: json, name: snapshot.key ?? 'Error');
-          },
-        ),
-        bottomNavigationBar: StreamBuilder(
-            stream: FirebaseDatabase.instance.ref('/${args.gameID}/').onValue,
-            builder: (context, snapshot) {
-              return bottomNavigationBuilder(context, snapshot);
-            }));
+      ),
+      body: FirebaseAnimatedList(
+        query: getPlayers(),
+        itemBuilder: (context, snapshot, animation, index) {
+          dynamic json = snapshot.value;
+          return PlayerCard(json: json, name: snapshot.key ?? 'Error');
+        },
+      ),
+      // bottomNavigationBar: StreamBuilder(
+      //     stream: FirebaseDatabase.instance.ref('/${args.gameID}/').onValue,
+      //     builder: (context, snapshot) {
+      //       return bottomNavigationBuilder(context, snapshot);
+      //     }),
+    );
   }
 
   Future<void> getCurrentMoney() async {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
-    currentMoney = int.parse((await FirebaseDatabase.instance
-            .ref()
-            .child('/${args.gameID}/players/${args.name}/chips')
-            .get())
-        .value
-        .toString());
+    currentMoney = int.parse(
+        (await FirebaseDatabase.instance.ref().child('/${args.gameID}//${args.name}/chips').get())
+            .value
+            .toString());
   }
 
   Future<void> getMinBet() async {
