@@ -4,7 +4,7 @@ A better, more complete poker helper.
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Still
+    [*] --> Bet: Initial Bet
     Still --> [*]
     
     Still --> Moving
