@@ -259,60 +259,77 @@ class PlayerCard extends StatelessWidget {
   }
 
   String getRole(dynamic role) {
-    if (role == Role.smallBlind) {
-      return 'Small Blind';
-    } else if (role == Role.bigBlind) {
-      return 'Big Blind';
-    } else if (role == Role.dealer) {
-      return 'Dealer';
+    switch(role){
+      case Role.bigBlind:
+        return 'Big Blind';
+      case Role.smallBlind:
+        return 'Small Blind';
+      case Role.dealer:
+        return 'Dealer';
+      case Role.player:
+        return 'Player';
+      default:
+    return 'Error';
     }
-    return 'Player';
   }
 
   String getStatus(dynamic status) {
-    if (status == Status.inGame) {
-      return 'In Game';
-    } else if (status == Status.allIn) {
-      return 'All In';
-    } else if (status == Status.folded) {
-      return 'Folded';
-    } else if (status == Status.out) {
-      return 'Out';
+    switch(status){
+      case Status.inGame:
+        return 'In Game';
+      case Status.allIn:
+        return 'All In';
+      case Status.folded:
+        return 'Folded';
+      case Status.out:
+        return 'Out';
+      case Status.knock:
+        return 'Knocked';
+      default:
+        return 'Error';
+
     }
-    return 'Out';
   }
 
   Color? getRoleColor(dynamic role) {
-    if (role == Role.bigBlind) {
-      return Colors.orange;
-    } else if (role == Role.smallBlind) {
-      return Colors.purple;
-    } else if (role == Role.dealer) {
-      return Colors.grey[200];
-    } else if (role == Role.player) {
-      return Colors.indigo[900];
+    switch(role){
+      case Role.bigBlind:
+        return Colors.orange;
+      case Role.smallBlind:
+        return Colors.purple;
+      case Role.dealer:
+        return Colors.grey[200];
+      case Role.player:
+        return Colors.indigo[900];
+      default:
+        return Colors.red[900];
     }
-    return Colors.indigo[900];
   }
 
   Color? getStatusColor(dynamic status) {
-    if (status == Status.inGame) {
-      return Colors.green;
-    } else if (status == Status.allIn) {
-      return Colors.red;
-    } else if (status == Status.folded) {
-      return Colors.grey;
-    } else if (status == Status.out) {
-      return Colors.grey[900];
+    switch(status){
+      case Status.inGame:
+        return Colors.green;
+      case Status.allIn:
+        return Colors.red;
+      case Status.folded:
+        return Colors.grey;
+      case Status.out:
+        return Colors.grey[900];
+      case Status.knock:
+        return Colors.greenAccent;
+      default:
+        return Colors.red[900];
     }
-    return Colors.grey[900];
   }
 
   TextStyle? getPlayerTextStyle(dynamic role, BuildContext context) {
-    if (role == Role.dealer) {
-      return Theme.of(context).textTheme.headline5?.copyWith(color: Colors.grey[900]);
+    switch(role){
+      case Role.dealer:
+        return Theme.of(context).textTheme.headline5?.copyWith(color: Colors.grey[900]);
+      default:
+        return Theme.of(context).textTheme.headline5;
     }
-    return Theme.of(context).textTheme.headline5;
   }
 
   @override
