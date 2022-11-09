@@ -3,7 +3,7 @@
 A better, more complete poker helper.
 
 ```mermaid
-state-diagram-v2
+stateDiagram-v2
     [*] --> Still
     Still --> [*]
     
