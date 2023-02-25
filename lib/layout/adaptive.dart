@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
-import 'package:dual_screen/dual_screen.dart';
 import 'package:flutter/material.dart';
 
 /// The maximum width taken up by each item on the home screen.
@@ -28,11 +27,5 @@ bool isDisplayDesktop(BuildContext context) =>
 /// screen into two, left and right sub-screens. Horizontal splits (top and
 /// bottom sub-screens) are ignored for this application.
 bool isDisplayFoldable(BuildContext context) {
-  final hinge = MediaQuery.of(context).hinge;
-  if (hinge == null) {
     return false;
-  } else {
-    // Vertical
-    return hinge.bounds.size.aspectRatio < 1;
-  }
 }
