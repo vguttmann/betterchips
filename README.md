@@ -2,15 +2,23 @@
 
 A better, more complete poker helper.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```mermaid
+stateDiagram-v2
+    [*] --> Bet: raise
+    [*] --> Fold: notraise
+    Bet --> Raise: raise
+    Bet --> Match: match
+    Bet --> Fold: notraise
+    Match --> Match: match
+    Match --> Reraise: raise
+    Match --> Knock: notraise
+    Raise --> Match: match
+    Raise --> Reraise: raise
+    Raise --> Knock: notraise
+    Reraise --> Reraise: raise
+    Reraise --> Match: match
+    Reraise --> Knock: notraise
+    Knock --> Knock: notraise
+    Knock --> Match: match
+    Knock --> Reraise: raise 
+```
